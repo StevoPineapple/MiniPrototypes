@@ -1308,10 +1308,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currGameCount: 2
-  skiptoGame: 1
+  skiptoGame: 0
   toggleArr:
   - name: Dollhouse
-    play: 1
+    play: 0
   - name: Darts
     play: 0
   gameStartEventArr:
