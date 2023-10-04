@@ -8,8 +8,9 @@ public class DartsHumanManager : MonoBehaviour
     float yAcc;
 
     float rotationSpeed;
-    float counterClockChance = 0.8f;
-    //bool hasLock = true;
+    float counterClockChance = 0.65f;
+
+    int level; //Difficulty variants
 
     GameObject[] lockArr;
     //public GameObject splashObj;
@@ -18,10 +19,34 @@ public class DartsHumanManager : MonoBehaviour
     {
         lockArr = GameObject.FindGameObjectsWithTag("DartsLock");
 
-        rotationSpeed = Random.Range(0.05f, 0.6f);
+        rotationSpeed = Random.Range(0.4f, 0.7f); //Rotation Speed
+        switch (level)
+        {
+            case (0):
+                {
+                    rotationSpeed -= 0.05f;
+                    break;
+                }
+            case(1):
+                {
+                    rotationSpeed += 0.85f;
+                    break;
+                }
+            case(2):
+                {
+                    rotationSpeed += 1.7f;
+                    break;
+                }
+            case (3):
+                {
+                    rotationSpeed = 0;
+                    break;
+                }
+        }
         if (Random.Range(0f, 1f) > counterClockChance)
         {
             //isCounterClock = true;
+            rotationSpeed += 0.35f; //CCW is harder but rare
             rotationSpeed = -rotationSpeed;
         }
     }
@@ -47,5 +72,9 @@ public class DartsHumanManager : MonoBehaviour
             }
         }
         return true;
+    }
+    public void SetLevel(int _level)
+    {
+        level = _level;
     }
 }

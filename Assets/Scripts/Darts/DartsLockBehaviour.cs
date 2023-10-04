@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DartsLockBehaviour : MonoBehaviour
 {
-    float lightCycleSpeed = 4f;
+    float lightCycleSpeed = 6f;
     SpriteRenderer sprRend;
     public GameObject debrisObject;
     // Start is called before the first frame update

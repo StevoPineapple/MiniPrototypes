@@ -9,6 +9,7 @@ interface GameFamilyNames
 {
     static string DollHouseObject = "DollhouseFamily";
     static string DartsObject = "DartsGameFamily";
+    static string WinePourObject = "WinePourFamily";
 }
 
 public class GameSelect : MonoBehaviour

@@ -5,11 +5,13 @@ using UnityEngine;
 public class DartsManager : MiniGameManager
 {
     static MonoBehaviour selfInstance;
-    public GameObject humanPrefab;
+    public GameObject[] humanPrefabArr;
     public Transform humanPosRef;
     static GameObject HumanObject;
     public static GameObject DartsHolder;
     public static GameObject DebrisHolder;
+
+    int humanLevel;
 
     //public static GameObject WinObject;
     //public static GameSelect GameSelectManager;
@@ -18,8 +20,14 @@ public class DartsManager : MiniGameManager
     {
         Init();
         selfInstance = this;
-        
-        HumanObject = Instantiate(humanPrefab, humanPosRef.transform.position,transform.rotation);
+
+        if(Random.Range(0,1)>0.75f)
+            humanLevel = Random.Range(0,humanPrefabArr.Length);
+        else
+            humanLevel = Random.Range(0, humanPrefabArr.Length-1);
+
+        HumanObject = Instantiate(humanPrefabArr[humanLevel], humanPosRef.transform.position,transform.rotation);
+        HumanObject.GetComponent<DartsHumanManager>().SetLevel(humanLevel);
         HumanObject.transform.SetParent(this.transform, true);
         
         DartsHolder = Instantiate(new GameObject("DartsHolder"), transform.position, transform.rotation);

@@ -105,7 +105,11 @@ public class DartBehavior : MonoBehaviour
         boxCollider.enabled = true;
         yield return new WaitForFixedUpdate();
         if (!hitHuman)
-            GetComponent<SpriteRenderer>().sortingOrder = -4;
+        {
+            SpriteRenderer sprRend = GetComponent<SpriteRenderer>();
+            sprRend.sortingOrder = -4;
+            sprRend.color = new Color(0.3f, 0.3f, 0.3f);
+        }
         boxCollider.enabled = false;
         shrinking = false;
     }

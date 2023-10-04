@@ -5,6 +5,8 @@ using UnityEngine;
 public class DartsReticle : MonoBehaviour
 {
     public GameObject outerRing;
+    public GameObject outerRingHold;
+
     float ringMinSize = 0.25f;
     float ringShrinkSpeed = 0.023f*60;
     float ringInitSize; //Assume X and Y size is the same
@@ -45,6 +47,8 @@ public class DartsReticle : MonoBehaviour
                     accuracy = initToCurrent / initToMin;
 
                     outerRing.GetComponent<SpriteRenderer>().color = new Color(ringColor.r, ringColor.g, ringColor.b, ((0.8f * accuracy + 0.3f)));
+                    outerRingHold.GetComponent<SpriteRenderer>().color = new Color(ringColor.r, ringColor.g, ringColor.b, (1 - accuracy*2.5f));
+
                     outerRing.transform.localScale = new Vector2
                       (outerRing.transform.localScale.x - ringShrinkSpeed * Time.deltaTime, outerRing.transform.localScale.y - ringShrinkSpeed * Time.deltaTime);
                 }
@@ -55,6 +59,7 @@ public class DartsReticle : MonoBehaviour
             {
                 Color ringColor = outerRing.GetComponent<SpriteRenderer>().color;
                 outerRing.GetComponent<SpriteRenderer>().color = new Color(ringColor.r, ringColor.g, ringColor.b, ringInitAlpha);
+                outerRingHold.GetComponent<SpriteRenderer>().color = new Color(ringColor.r, ringColor.g, ringColor.b, 1);
 
                 float initToCurrent = ringInitSize - outerRing.transform.localScale.x;
                 float initToMin = ringInitSize - ringMinSize;
