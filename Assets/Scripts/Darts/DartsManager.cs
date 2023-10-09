@@ -8,7 +8,7 @@ public class DartsManager : MiniGameManager
     public GameObject[] humanPrefabArr;
     public Transform humanPosRef;
     static GameObject HumanObject;
-    public static GameObject DartsHolder;
+    public static GameObject DartsHolder; //TODO static shouldn't be used like this, if it changes
     public static GameObject DebrisHolder;
 
     int humanLevel;
@@ -30,7 +30,7 @@ public class DartsManager : MiniGameManager
         HumanObject.GetComponent<DartsHumanManager>().SetLevel(humanLevel);
         HumanObject.transform.SetParent(this.transform, true);
         
-        DartsHolder = Instantiate(new GameObject("DartsHolder"), transform.position, transform.rotation);
+        DartsHolder = Instantiate(new GameObject("DartsHolder"), transform.position, transform.rotation); //TODO 
         DartsHolder.transform.SetParent(this.transform);
 
         DebrisHolder = Instantiate(new GameObject("DebrisHolder"), transform.position, transform.rotation);

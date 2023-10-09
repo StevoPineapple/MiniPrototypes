@@ -14,11 +14,11 @@ public class DollhouseManager : MiniGameManager
     static MonoBehaviour selfInstance;
 
     //First click prevention
-    public static float FirstClickChance = 0.05f;
+    public static float FirstClickChance = 0.05f; 
     public static bool IsFirstClick = true;
 
     //Doors init
-    public static float DoorCoolDownTime = 1.3f;
+    public static float DoorCoolDownTime = 1.3f; //TODO why are we using statics here -> [SerializeField] private
     static int headDoorPos;
     static int headFloorPos;
     [Serializable] public class Floor
@@ -74,7 +74,7 @@ public class DollhouseManager : MiniGameManager
             }
         }
     }
-    public override void StartGame()
+    public override void StartGame() //TODO separate this into multiple functions
     {
         Init();
 

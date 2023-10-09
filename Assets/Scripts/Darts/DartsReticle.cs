@@ -5,9 +5,13 @@ using UnityEngine;
 public class DartsReticle : MonoBehaviour
 {
     public GameObject outerRing;
+<<<<<<< HEAD
     public GameObject outerRingHold;
 
     float ringMinSize = 0.25f;
+=======
+    float ringMinSize = 0.25f; //TODO Expose this variables in inspector
+>>>>>>> d985504a2dc3b60638380bf72e53eb6c261ab115
     float ringShrinkSpeed = 0.023f*60;
     float ringInitSize; //Assume X and Y size is the same
     float ringInitAlpha = 0.3f;
@@ -26,7 +30,7 @@ public class DartsReticle : MonoBehaviour
     {
         ringInitSize = outerRing.transform.localScale.x;
     }
-    // Update is called once per frame
+    // Update is called once per frame //Todo this function has a lot going on, separating this in own functions
     void Update()
     {
         //follow mouse
@@ -57,7 +61,7 @@ public class DartsReticle : MonoBehaviour
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                Color ringColor = outerRing.GetComponent<SpriteRenderer>().color;
+                Color ringColor = outerRing.GetComponent<SpriteRenderer>().color; //TODO avoid get component if possible
                 outerRing.GetComponent<SpriteRenderer>().color = new Color(ringColor.r, ringColor.g, ringColor.b, ringInitAlpha);
                 outerRingHold.GetComponent<SpriteRenderer>().color = new Color(ringColor.r, ringColor.g, ringColor.b, 1);
 
