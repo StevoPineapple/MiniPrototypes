@@ -10,7 +10,8 @@ public abstract class MiniGameManager : MonoBehaviour
     public void Init()
     {
         GameSelectManager = GameObject.FindWithTag("GameSelectManager").GetComponent<GameSelect>();
-        WinObject = transform.Find("Win").gameObject;
+        if(WinObject==null)
+            WinObject = transform.Find("Win").gameObject;
         WinObject.SetActive(false);
     }
     public abstract void StartGame();
