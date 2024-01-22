@@ -5,13 +5,9 @@ using UnityEngine;
 public class DartsReticle : MonoBehaviour
 {
     public GameObject outerRing;
-<<<<<<< HEAD
     public GameObject outerRingHold;
 
-    float ringMinSize = 0.25f;
-=======
-    float ringMinSize = 0.25f; //TODO Expose this variables in inspector
->>>>>>> d985504a2dc3b60638380bf72e53eb6c261ab115
+    float ringMinSize = 0.25f;//TODO Expose this variables in inspector
     float ringShrinkSpeed = 0.023f*60;
     float ringInitSize; //Assume X and Y size is the same
     float ringInitAlpha = 0.3f;

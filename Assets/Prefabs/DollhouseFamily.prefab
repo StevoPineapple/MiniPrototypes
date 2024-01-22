@@ -346,6 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edb7e654f7e5886459ce62cbc5b61ac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WinObject: {fileID: 0}
   floorArr:
   - doorArr:
     - {fileID: 792838242231429824}

@@ -30,14 +30,20 @@ public class WineBottleBehavior : MonoBehaviour
 
     float pourRadioAdjust = 0.0035f; //fix sprite size scaling to remove this
 
-    public WineVolumnBehavior wineVolumn;
+    public GreenVolumnBehavior_BB wineVolumn;
+    public FoamVolumnBehavior_BB foamVolumn;
+    public BobaPourManager_BB PourRate;
 
     Vector3 bottleRotation;
-
+    Coroutine PourRoutine;
+    bool CP;
+    public float pourIndex;
 
     // Start is called before the first frame update
     void Start()
     {
+        pourIndex = 0.5f;
+
         initRotation = transform.rotation;
         minRotation = initRotation.z;
         //mouseInitX = Input.mousePosition.x;
@@ -53,13 +59,14 @@ public class WineBottleBehavior : MonoBehaviour
     {
         if (WinePourManager.HasWon || WinePourManager.HasLost)
         {
+            DisablePour();
             return;
         }
 
         bottleRotation = transform.rotation.eulerAngles;
         CheckDragging();
         CheckPouring();
-        DisablePour();
+        //DisablePour();
     }
     void StretchWineSprite(float pourRatio)
     {
@@ -109,15 +116,40 @@ public class WineBottleBehavior : MonoBehaviour
     }
     void CheckPouring()
     {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            PourRoutine = StartCoroutine(DoPour());
+        }
+        else if (Input.GetKeyUp(KeyCode.A))
+        {
+            pourIndex = 0.5f;
+            StopCoroutine(PourRoutine);
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            if (CP)
+            {
+                pourIndex *= 1.01f;
+                wineVolumn.GrowVolume(0.05f*pourIndex); //0.1
+                foamVolumn.GrowFoam(0.005f * pourIndex); //0.01
+                foamVolumn.AddFreshness(0.025f * pourIndex);//0.05
+            }
+        }
+        else
+            CP = false;
+
         if (transform.rotation.eulerAngles.z > pourThreshold)
         {
             wineTopSpr.enabled = true;
             wineSpr.enabled = true;
-            float pourRatio = 1 - ((maxRotation - transform.rotation.eulerAngles.z) / (maxRotation - pourThreshold));
+            float pourRatio = 1 - ((maxRotation - transform.rotation.eulerAngles.z) / (maxRotation - pourThreshold)); //normalized
             StretchWineSprite(pourRatio * pourRadioAdjust);
-            if (wineSpr.bounds.min.y <= wineVolumn.wineVolumeTop)
+            if (wineSpr.bounds.min.y <= wineVolumn.GreenVolumeTop)
             {
-                wineVolumn.GrowVolume(pourRatio * pourRadioAdjust * 3.5f);
+                wineVolumn.GrowVolume(pourRatio*0.05f); //0.1
+                foamVolumn.GrowFoam(pourRatio*0.005f); //0.01
+                foamVolumn.AddFreshness(pourRatio*0.025f);//0.05
             }
         }
         else
@@ -134,5 +166,10 @@ public class WineBottleBehavior : MonoBehaviour
         wineSpr.enabled = false;
         pourAcc = 0;
         pourYScale = 0;
+    }
+    IEnumerator DoPour()
+    {
+        yield return new WaitForSeconds(0.5f);
+        CP = true;
     }
 }

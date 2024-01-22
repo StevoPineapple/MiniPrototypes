@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class WinePourManager : MiniGameManager
 {
+    public BobaPourManager_BB Boba;
+
     public SpriteRenderer targetRangeRef;
     public GameObject targetMarker;
-    public static GameObject TargetRange;
+    public static GameObject TaargetRange;
     public static bool HasWon;
     public static bool HasLost;
-    public WineVolumnBehavior wineVolume;
+    public GreenVolumnBehavior_BB wineVolume;
     public GlassFly glassObj;
     public SpriteRenderer drinker;
     public Sprite drinkerCalm;
@@ -26,37 +28,43 @@ public class WinePourManager : MiniGameManager
     public override void StartGame()
     {
         Init();
-        if (!firstTime)
+        Boba.StartNew();
+        /*if (!firstTime)
         {
             wineVolume.ResetScale();
+            //foam reset
             glassObj.GetComponent<GlassFly>().ResetTrans();
-        }
-        LoseObject.SetActive(false);
-        HasWon = false;
-        HasLost = false;
+        }*/
+        //LoseObject.SetActive(false);
+        //HasWon = false;
+        //HasLost = false;
 
-        wineVolume.wineVolumeTop = 0;
+        //wineVolume.wineVolumeTop = 0;
+        //foam reset to 0;
 
-    drinker.sprite = drinkerCalm;
-        if(TargetRange==null)
-            TargetRange = transform.Find("TargetFamily/TargetRange").gameObject;
+        //drinker.sprite = drinkerCalm;
 
-        targetRangeRef.enabled = true;
-        targetMaxY = targetRangeRef.bounds.max.y;
-        targetMinY = targetRangeRef.bounds.min.y;
-        targetRangeRef.enabled = false;
+        //if(TargetRange==null)
+        //    TargetRange = transform.Find("TargetFamily/TargetRange").gameObject;
 
-        firstTime = false;
-        SetTarget();
+        //targetRangeRef.enabled = true;
+        //targetMaxY = targetRangeRef.bounds.max.y;
+        //targetMinY = targetRangeRef.bounds.min.y;
+        //targetRangeRef.enabled = false;
+
+        //firstTime = false;
+        //SetTarget();
     }
 
     // Update is called once per frame
     public override void ResetGame()
     {
+        HasWon = false;
+        Boba.Close();
         //HasLost = false;
         //HasWon = false;
         //yield return new WaitForSeconds(GameSelect.GameCloseTime-0.1f);
-        
+
         //StartCoroutine(DoResetGame());
     }
 
@@ -65,9 +73,21 @@ public class WinePourManager : MiniGameManager
         yield return null;
     }
 
+    private void Update()
+    {
+        if (HasWon)
+        {
+            return;
+        }
+        if (Boba.HasWon)
+        {
+            HasWon = true;
+            StartCoroutine(DoSetWin());
+        }
+    }
     public override void SetWin()
     {
-        StartCoroutine(DoSetWin());        
+        StartCoroutine(DoSetWin());
     }
     public void SetLose()
     {
@@ -79,22 +99,7 @@ public class WinePourManager : MiniGameManager
     {
         HasWon = true;
         WinObject.SetActive(true);
+        yield return new WaitForSeconds(GameSelect.GameCloseTime);
         GameSelectManager.QuitGame();
-        yield return null;
-    }
-    public void SetTarget()
-    {
-        targetRangeSize = Random.Range(1, 0.8f);
-        targetPos = Random.Range(targetMinY,targetMaxY);
-        TargetRange.transform.position = new Vector3(TargetRange.transform.position.x, targetPos, TargetRange.transform.position.z);
-        TargetRange.transform.localScale = new Vector3(TargetRange.transform.localScale.x, targetRangeSize);
-
-        targetMarker.transform.position = TargetRange.transform.position;
-    }
-    public void SetAngry()
-    {
-        glassObj.isRotating = true;
-        drinker.sprite = drinkerAngry;
-        SetLose();
     }
 }
