@@ -10,6 +10,7 @@ namespace RitualNight
         public class DVDTaskBehavior : MonoBehaviour//TaskBehavior
         {
             public bool HasWon;
+            public PlayerController_DV PlayerController;
 
             [Header("MiniManager")]
             public DVDMiniManager DVMM;
@@ -20,7 +21,7 @@ namespace RitualNight
             }
             public void StartOpen() //override
             {
-                //PlayerController.StartSetUp();
+                PlayerController.StartGame();
                 //HasWon = false;
                 //base.StartOpen();
             }

@@ -104,6 +104,7 @@ MonoBehaviour:
   currentAngle: {x: 0, y: 0, z: 0}
   preExist: 0
   copyPrefab: {fileID: 2032970145335833103, guid: cb74748611e4482419f69a37d20ed97c, type: 3}
+  detectorPrefab: {fileID: 6381591896411690155, guid: a8742445b7de8ab4db7051968bc8dfcf, type: 3}
   tvParent: {fileID: 0}
   copyParent: {fileID: 0}
   dotParent: {fileID: 0}

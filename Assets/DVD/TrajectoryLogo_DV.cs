@@ -20,9 +20,11 @@ namespace RitualNight
             [SerializeField] private int dropTickMax;
             [SerializeField] private GameObject dotObject;
             [SerializeField] private Transform dotParent;
+            public Transform detectParent;
 
             public void Awake()
             {
+                detectParent = GameObject.Find("DetectorObjects").transform;
                 _selfCollider = GetComponent<Collider2D>();
                 _selfBody = GetComponent<Rigidbody2D>();
                 CanSetNewLife = false;
@@ -45,14 +47,14 @@ namespace RitualNight
             }
             public void SetLaunchAngle(Transform _initTrans, Vector2 _velo)
             {
-                _velo *= 10;
+                _velo *= 6;
                 _initAimingPos = _initTrans.position;
                 _selfBody.velocity = new Vector2(_velo.x, _velo.y);
             }
 
             public void SetNewLife(Vector3 _initPos, Vector2 _velo)
             {
-                _velo *= 10;
+                _velo *= 6;
                 CanSetNewLife = false;
                 transform.position = _initPos;
                 selfLife = _givenLife;
@@ -85,6 +87,13 @@ namespace RitualNight
             {
                 selfLife = 0;
                 CanSetNewLife = true;
+            }
+            private void OnCollisionEnter2D(Collision2D collision)
+            {
+                if (collision.gameObject.CompareTag(""))
+                {
+                    
+                }
             }
         }
     }

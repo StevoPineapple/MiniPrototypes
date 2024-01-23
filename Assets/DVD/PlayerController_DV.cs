@@ -21,6 +21,8 @@ namespace RitualNight
             [SerializeField] private Transform tvObjParent;
             [SerializeField] private Transform trajectoryObjParent;
             [SerializeField] private Transform dotParent;
+            [SerializeField] private Transform detectorParent;
+
             private LogoBehavior_DV _currentDisc;
             private TrajectoryLogo_DV _trajectoryDisc;
             private Rigidbody2D _trajectoryDiscBody;
@@ -29,23 +31,31 @@ namespace RitualNight
             private Vector3 _lastPos;
 
             [SerializeField] private SpriteShapeController ColliderSprShape;
+
+            private KnobBehavior_DV _currentKnob;
+            [SerializeField] private TvController_DV tvController;
+            public bool IsGrabbing;
+
+            [Header ("Debug")]
+            public bool DebugMode;
+
             /*private void OnEnable()
             {
                 if (PartyGameController.IsUsingController)
                 {
-                    PartyGameController.OnPartyGameActionPress += ControllerPress;
-                    PartyGameController.OnPartyGameActionRelease += ControllerRelease;
+                    PartyGameController.OnPartyGameActionPress += OnControllerPress;
+                    PartyGameController.OnPartyGameActionRelease += OnControllerRelease;
                 }
                 else
                 {
-                    PartyGameController.OnPartyGameActionPress += MousePress;
+                    PartyGameController.OnPartyGameActionPress += OnMousePress;
                     if (isMobile.Value)
                     {
-                        PartyGameController.OnPartyGameActionReleaseMobile += MouseRelease;
+                        PartyGameController.OnPartyGameActionReleaseMobile += OnMouseRelease;
                     }
                     else
                     {
-                        PartyGameController.OnPartyGameActionRelease += MouseRelease;
+                        PartyGameController.OnPartyGameActionRelease += OnMouseRelease;
                     }
                 }
             }
@@ -54,29 +64,30 @@ namespace RitualNight
             {
                 if (PartyGameController.IsUsingController)
                 {
-                    PartyGameController.OnPartyGameActionPress -= ControllerPress;
-                    PartyGameController.OnPartyGameActionRelease -= ControllerRelease;
+                    PartyGameController.OnPartyGameActionPress -= OnControllerPress;
+                    PartyGameController.OnPartyGameActionRelease -= OnControllerRelease;
                 }
                 else
                 {
-                    PartyGameController.OnPartyGameActionPress -= MousePress;
+                    PartyGameController.OnPartyGameActionPress -= OnMousePress;
                     if (isMobile.Value)
                     {
-                        PartyGameController.OnPartyGameActionReleaseMobile -= MouseRelease;
+                        PartyGameController.OnPartyGameActionReleaseMobile -= OnMouseRelease;
                     }
                     else
                     {
-                        PartyGameController.OnPartyGameActionRelease -= MouseRelease;
+                        PartyGameController.OnPartyGameActionRelease -= OnMouseRelease;
                     }
                 }
             }*/
             public void StartGame()
             {
-                ResetGame();
+                tvController.StartGame();
+                //ResetGame();
             }
-            void createLogo()
+            void createLogo() 
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(1))
                 {
                     _isAiming = true;
                     _currentDisc = Instantiate(logoObject, transform.position, transform.rotation, tvObjParent).GetComponent<LogoBehavior_DV>();
@@ -86,7 +97,7 @@ namespace RitualNight
                     StartCoroutine(DoLaunchCopies());
                     _lastPos = transform.position;
                 }
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButton(1))
                 {
                     IsSlow = true;
                     //Time.timeScale = 0.1f;
@@ -112,7 +123,7 @@ namespace RitualNight
                     _currentDisc.SetAngle(transform.position - _currentDisc.transform.position);
                     _lastPos = transform.position;
                 }
-                if (Input.GetMouseButtonUp(0))
+                if (Input.GetMouseButtonUp(1))
                 {
                     IsSlow = false;
                     //Time.timeScale = 1f;
@@ -126,20 +137,161 @@ namespace RitualNight
                     }
                 }
             }
+
+            void DebugCreateLogo()
+            {
+                if (!DebugMode)
+                {
+                    return;
+                }
+                if (Input.GetMouseButtonDown(1))
+                {
+                    _isAiming = true;
+                    _currentDisc = Instantiate(logoObject, transform.position, transform.rotation, tvObjParent).GetComponent<LogoBehavior_DV>();
+                    _currentDisc.PlayerController = this;
+                    _trajectoryDisc = _currentDisc.CreateLaunchCopy(tvObjParent, trajectoryObjParent, dotParent, transform.position - _currentDisc.transform.position, 15);
+
+                    StartCoroutine(DoLaunchCopies());
+                    _lastPos = transform.position;
+                }
+                if (Input.GetMouseButton(1))
+                {
+                    //Time.timeScale = 0.1f;
+                    //Time.fixedDeltaTime = Time.timeScale * 0.02f;
+                    if (Vector3.Distance(_lastPos, transform.position) > 0.01f)
+                    {
+                        ResetAllTrajectoryCopies();
+                        _trajectoryDisc.SetNewLife(_currentDisc.transform.position, transform.position - _currentDisc.transform.position);
+                        foreach (Transform child in dotParent)
+                        {
+                            Destroy(child.gameObject);
+                        }
+                    }
+                    else if (_trajectoryDisc.CanSetNewLife)
+                    {
+                        foreach (Transform child in dotParent)
+                        {
+                            Destroy(child.gameObject);
+                        }
+                        ResetAllTrajectoryCopies();
+                        _trajectoryDisc.SetNewLife(_currentDisc.transform.position, transform.position - _currentDisc.transform.position);
+                    }
+                    _currentDisc.SetAngle(transform.position - _currentDisc.transform.position);
+                    _lastPos = transform.position;
+                }
+                if (Input.GetMouseButtonUp(1))
+                {
+                    _isAiming = false;
+                    _currentDisc.Launch();
+                    StopAllCoroutines();
+                    foreach (Transform child in dotParent)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                }
+            }
             private void Update()
             {
+                DebugCreateLogo();
+                transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                transform.position = new Vector3(transform.position.x, transform.position.y, 0);
                 //PartyGameController.PartyGameFollow(transform, PartyGameController.IsUsingController ? 5 : 100);
                 if (Input.GetMouseButtonDown(0))
                 {
-                   
+                    OnMousePress();
                 }
                 if (Input.GetMouseButton(0))
                 {
-                   
+                    OnMouseHold();
                 }
                 if (Input.GetMouseButtonUp(0))
                 {
-                   
+                    OnMouseRelease();
+                }
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    IsSlow = true;
+                }
+                if (Input.GetKeyUp(KeyCode.Space))
+                {
+                    IsSlow = false;
+                }
+            }
+            private void OnTriggerEnter2D(Collider2D collision)
+            {
+                if (IsGrabbing)
+                {
+                    return;
+                }
+                if (collision.CompareTag("Knob_DV"))
+                {
+                    _currentKnob = collision.GetComponent<KnobBehavior_DV>();
+                }
+            }
+            private void OnTriggerExit2D(Collider2D collision)
+            {
+                if (IsGrabbing)
+                {
+                    return;
+                }
+                if (collision.CompareTag("Knob_DV"))
+                {
+                    _currentKnob = null;
+                }
+            }
+            private void OnMousePress()
+            {
+                if (_currentKnob != null)
+                {
+                    _currentKnob.OnGrab();
+                    IsGrabbing = true;
+                    LaunchDiscTrajectoryCopies();
+                }
+            }
+            private void OnMouseHold()
+            {
+                if (_trajectoryDisc != null && _currentDisc != null)
+                {
+                    if (Vector3.Distance(_lastPos, transform.position) > 0.01f)
+                    {
+                        ResetAllTrajectoryCopies();
+                        //_trajectoryDisc.SetNewLife(_currentDisc.transform.position, transform.position - _currentDisc.transform.position);
+                        foreach (Transform child in dotParent)
+                        {
+                            Destroy(child.gameObject);
+                        }
+                    }
+                    else if (_trajectoryDisc.CanSetNewLife)
+                    {
+                        foreach (Transform child in dotParent)
+                        {
+                            Destroy(child.gameObject);
+                        }
+                        ResetAllTrajectoryCopies();
+                        //_trajectoryDisc.SetNewLife(_currentDisc.transform.position, transform.position - _currentDisc.transform.position);
+                    }
+                    //_currentDisc.SetAngle(transform.position - _currentDisc.transform.position);
+                    _lastPos = transform.position;
+                }
+            }
+            private void OnMouseRelease()
+            {
+                if (_currentKnob != null)
+                {
+                    _currentKnob.OnRelease();
+                    IsGrabbing = false;
+                    StopAllCoroutines();
+                    foreach (Transform child in dotParent)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                }
+            }
+            public void DestroyAllDots()
+            {
+                foreach (Transform child in dotParent)
+                {
+                    Destroy(child.gameObject);
                 }
             }
             private void ResetAllTrajectoryCopies()
@@ -166,8 +318,7 @@ namespace RitualNight
             }
             void FixedUpdate()
             {
-                transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+                
                 if (DVManager.HasWon)
                 {
                     return;
@@ -184,25 +335,18 @@ namespace RitualNight
             {
                 StopAllCoroutines();
             }
-            /*private void ControllerPress()
+            /*private void OnControllerPress()
             {
             
             }*/
-            /*private void ControllerRelease()
+            /*private void OnControllerRelease()
             {
             
             }*/
 
-            private void MousePress()
-            {
-
-            }
-            private void MouseRelease()
-            {
-
-            }
             public void CloseGame()
             {
+                tvController.ResetGame();
                 ResetGame();
             }
 

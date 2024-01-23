@@ -19,15 +19,21 @@ namespace RitualNight
             private bool _isInSlowMode;
 
             [SerializeField] private GameObject copyPrefab;
+            [SerializeField] private GameObject detectorPrefab;
             [SerializeField] private Transform tvParent;
             [SerializeField] private Transform copyParent;
             [SerializeField] private Transform dotParent;
+
             private TrajectoryLogo_DV _copyObject;
+            private GameObject _detectorObject;
+            private Transform detectorParent;
+
             //[SerializeField] private bool
             private void Awake()
             {
                 _selfBody = GetComponent<Rigidbody2D>();
                 _selfCollider = GetComponent<Collider2D>();
+                detectorParent = GameObject.Find("DetectorObjects").transform;
 
                 if (preExist)
                 {
@@ -46,6 +52,8 @@ namespace RitualNight
                 tvParent = _tvParent;
                 copyParent = _copyParent;
                 _isAiming = true;
+                _detectorObject = Instantiate(detectorPrefab, transform.position, transform.rotation, detectorParent);
+                _detectorObject.
 
                 _copyObject = Instantiate(copyPrefab, transform.position, transform.rotation, copyParent).GetComponent<TrajectoryLogo_DV>();
                 _copyObject.Launch(_tvParent,transform, dotParent,_direction, _life);
@@ -64,40 +72,46 @@ namespace RitualNight
                 {
                     _hasLaunched = true;
                     _isAiming = false;
-                    _selfBody.velocity = new Vector2(currentAngle.x, currentAngle.y)*0.1f;
+                    _selfBody.velocity = new Vector2(currentAngle.x, currentAngle.y);//*0.1f;
                 }
             }
             private void Update()
             {
                 if (PlayerController.IsSlow && !_isInSlowMode)
                 {
-                    _selfBody.velocity *= 0.1f;
+                    _selfBody.velocity *= 4f;
                     _isInSlowMode = true;
 
 
                 }
                 else if (!PlayerController.IsSlow && _isInSlowMode)
                 {
-                    _selfBody.velocity *= 10f;
+                    _selfBody.velocity *= 0.25f;
                     _isInSlowMode = false;
                     _copyObject.gameObject.SetActive(false);
                 }
-                if (PlayerController.IsSlow)
+                if (PlayerController.IsGrabbing)
                 {
                     if (_copyObject.CanSetNewLife)
                     {
-                        _copyObject.SetNewLife(transform.position, _selfBody.velocity*10);
+                        _copyObject.SetNewLife(transform.position, _selfBody.velocity * 4);
                     }
+                }
+                else
+                {
+                    _copyObject.gameObject.SetActive(false);
                 }
             }
             public void ResetCopy()
             {
-                _copyObject.SetNewLife(transform.position, _selfBody.velocity*10);
+                _copyObject.SetNewLife(transform.position, _selfBody.velocity*4);
             }
             private void OnCollisionEnter2D(Collision2D collision)
             {
                 if (collision.gameObject.CompareTag("Corner_DV"))
                 {
+                    PlayerController.DestroyAllDots();
+                    Destroy(_copyObject.gameObject);
                     Destroy(gameObject);
                 }
                 else if (collision.gameObject.CompareTag("Trajectory_DV"))
@@ -111,7 +125,7 @@ namespace RitualNight
                 {
                     _copyObject.gameObject.SetActive(true);
                     _copyObject.ResetLife();
-                    _copyObject.Launch(tvParent, transform, dotParent, _selfBody.velocity, 10);
+                    _copyObject.Launch(tvParent, transform, dotParent, _selfBody.velocity, 15);
                 }
             }
         }
