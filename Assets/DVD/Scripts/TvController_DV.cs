@@ -20,8 +20,8 @@ namespace RitualNight
             [SerializeField] private SpriteShapeController tvBufferWall;
             [SerializeField] private EdgeCollider2D edgeCollider;
 
-            [Header ("Values")]
-            public LogoBehavior_DV CurrentLogo;
+            [Header ("State")]
+            [HideInInspector] public LogoBehavior_DV CurrentLogo;
             [SerializeField] private bool isGrabbing;
             
             [Header ("Sides")]
@@ -48,6 +48,7 @@ namespace RitualNight
 
             [Header ("Hang")]
             [SerializeField] private SpriteShapeController tvEyeShape;
+            [SerializeField] private SpriteShapeController tvBrandShape;
             [SerializeField] private Sprite tvEyeNormal;
             [SerializeField] private Sprite tvEyeRight;
             [SerializeField] private Sprite tvEyeLeft;
@@ -55,17 +56,16 @@ namespace RitualNight
             [SerializeField] private int tvEyeLightTime;
             [SerializeField] private int tvEyeLightTimeMax;
 
-            [SerializeField] private SpriteShapeController tvBrandShape;
-
             [Header("UI")]
             [SerializeField] private GameObject barMeshObj;
             [SerializeField] private GameObject spdIconMeshObj;
             [SerializeField] private GameObject bounceCountMeshObj;
+            [SerializeField] private MeshFilter winScreenFilter;
             [SerializeField] private MeshFilter[] barFillSegArr;
             [SerializeField] private Texture[] bounceCountTexArr;
             [SerializeField] private Texture[] spdIconArr;
             [SerializeField] private Texture emptyTex;
-
+            
 
             private MeshRenderer _spdIconMeshRend;
             private MeshRenderer _bounceCountMeshRend;
@@ -96,24 +96,15 @@ namespace RitualNight
             public bool IsReleaseFlashing;
             float[] _sideBlendAmountArr = new float[4];
 
-            [Header ("Win")]
+            [Header ("Scoring")]
             [SerializeField] private int winFlashCycle;
             [SerializeField] private float winFlashCycleTime;
             public float WinFlashTotalTime; //used in create logo
 
-            [Header("Debug")]
-            public GameObject d;
-            public int Debug1;
-            public int Debug2;
-
-            public int debugv0;
-            public int debugv1;
-            public int debugv2;
-            public int debugv3;
-
             private void Awake()
             {
                 _spdIconMeshRend = spdIconMeshObj.GetComponent<MeshRenderer>();
+                
                 _bounceCountMeshRend = bounceCountMeshObj.GetComponent<MeshRenderer>();
 
                 _barMeshFilter = barMeshObj.GetComponent<MeshFilter>();
@@ -123,37 +114,41 @@ namespace RitualNight
 
             public void StartGame()
             {
+                _spdIconMeshRend.enabled = true;
                 WinFlashTotalTime = winFlashCycle * winFlashCycleTime;
                 _initPos = transform.position; //for bounce shift
-                foreach (KnobBehavior_DV _knob in knobArr)
-                {
-                    _knob.SetInitPos();
-                }
                 ResetBounceCount();
                 ResetCorners();
                 BounceSide = -1;
                 GrabAltSide = -1;
 
+                //Set stuff
+                Vector2 _selfWorldPos = transform.position;
+
                 for (int i = 0; i < tvShape.spline.GetPointCount(); i++)
                 {
+                    knobArr[i].transform.position = initShapePosArr[i].position;
+                    knobArr[i].SetInitPos();
+                    
                     tvShape.spline.SetPosition(i, initShapePosArr[i].transform.position - transform.position);
-                    cornerArr[i].transform.position = edgeCollider.points[i]+_initPos;
+                    //set corner sprite to edgeCollider
+                    cornerArr[i].transform.position = edgeCollider.points[i] + _selfWorldPos;
+
+                    //Set Line Renderer
                     lineArr[i].SetPosition(0, edgeCollider.points[i]);
-                    lineArr[i].SetPosition(1, edgeCollider.points[i + 1 > 3 ? 0 : i + 1]);
+                    lineArr[i].SetPosition(1, edgeCollider.points[(i + 1) % 4]);
 
-                    sideDetectorArr[i].SetPoints(new List<Vector2> { edgeCollider.points[i], edgeCollider.points[i + 1 > 3 ? 0 : i + 1]});
+                    //Set Side Colliders
+                    sideDetectorArr[i].SetPoints(new List<Vector2> { edgeCollider.points[i], edgeCollider.points[i + 1 > 3 ? 0 : i + 1] });
 
+                    //Set BG noise fill
                     tvFillShape.spline.SetPosition(i, tvShape.spline.GetPosition(i));
-
-                    lineArr[i].startColor = Color.blue;
-                    lineArr[i].endColor = Color.blue;
+                    tvSpawnArea.spline.SetPosition(i, tvShape.spline.GetPosition(i));
+                    tvBufferWall.spline.SetPosition(i, tvShape.spline.GetPosition(i));
                 }
+                AlignMeshToTv();
 
-                tvEyeShape.spline.SetPosition(0, edgeCollider.points[2] + _initPos);
-                tvEyeShape.spline.SetPosition(1, edgeCollider.points[3] + _initPos);
-
-                tvBrandShape.spline.SetPosition(0, edgeCollider.points[0] + _initPos);
-                tvBrandShape.spline.SetPosition(1, edgeCollider.points[1] + _initPos);
+                winScreenFilter.gameObject.SetActive(false);
 
             }
             public void ResetGame()
@@ -163,6 +158,8 @@ namespace RitualNight
                 {
                     _knob.ReturnToInitPos();
                 }
+
+                _spdIconMeshRend.enabled = false;
                 ResetBounceCount();
                 ResetCorners();
                 BounceSide = -1;
@@ -208,6 +205,8 @@ namespace RitualNight
 
                 //Set stuff
                 Vector2 _selfWorldPos = transform.position;
+                //Eye position and Tv Brand
+                HandleAccessory();
                 if (isGrabbing)
                 {
                     //border position
@@ -218,12 +217,8 @@ namespace RitualNight
                     //Knob position
                     knobArr[_currentCornerIndex].transform.position = knobArr[_currentCornerIndex].ClampOtherPosition(playerController.gameObject.transform.position - tvShape.transform.position);
 
-                    //Eye position and Tv Brand
-                    HandleAccessory();
+                    //HandleAccessory();
                 }
-
-                //Set UI Mesh
-                Vector3[] screenVertexPos = _barMeshFilter.mesh.vertices;
 
                 for (int i = 0; i < tvShape.spline.GetPointCount(); i++)
                 {
@@ -237,29 +232,23 @@ namespace RitualNight
                     //Set Side Colliders
                     sideDetectorArr[i].SetPoints(new List<Vector2> { edgeCollider.points[i], edgeCollider.points[i + 1 > 3 ? 0 : i + 1] });
 
-                    //Set UI Mesh
-                    if (i == 0)
-                    {
-                        screenVertexPos[i] = tvShape.spline.GetPosition(1) + transform.position;
-                    }
-                    else if (i == 1)
-                    {
-                        screenVertexPos[i] = tvShape.spline.GetPosition(0) + transform.position;
-                    }
-                    else if (i == 2)
-                    {
-                        screenVertexPos[i] = tvShape.spline.GetPosition(2) + transform.position;
-                    }
-                    else if (i == 3)
-                    {
-                        screenVertexPos[i] = tvShape.spline.GetPosition(3) + transform.position;
-                    }
-
                     //Set BG noise fill
                     tvFillShape.spline.SetPosition(i, tvShape.spline.GetPosition(i));
                     tvSpawnArea.spline.SetPosition(i, tvShape.spline.GetPosition(i));
                     tvBufferWall.spline.SetPosition(i, tvShape.spline.GetPosition(i));
                 }
+                AlignMeshToTv();
+            }
+
+            private void AlignMeshToTv()
+            {
+
+                //Set UI Mesh
+                Vector3[] screenVertexPos = _barMeshFilter.mesh.vertices;
+                screenVertexPos[0] = tvShape.spline.GetPosition(1) + transform.position;
+                screenVertexPos[1] = tvShape.spline.GetPosition(0) + transform.position;
+                screenVertexPos[2] = tvShape.spline.GetPosition(2) + transform.position;
+                screenVertexPos[3] = tvShape.spline.GetPosition(3) + transform.position;
 
                 foreach (MeshFilter _meshFilter in barFillSegArr)
                 {
@@ -268,11 +257,6 @@ namespace RitualNight
                 _barMeshFilter.mesh.vertices = screenVertexPos;
                 _spdIconMeshFilter.mesh.vertices = screenVertexPos;
                 _bounceCountMeshFilter.mesh.vertices = screenVertexPos;
-            }
-
-            public void AlignMeshToTv(MeshFilter _meshFilter, Vector3[] tvPosArr)
-            {
-                _meshFilter.mesh.vertices = tvPosArr;
             }
             
             public void ForceReleaseFlash(int _side)
@@ -367,6 +351,14 @@ namespace RitualNight
                 }
 
             }
+            private void ResetAccesoryPos()
+            {
+                tvEyeShape.spline.SetPosition(0, initShapePosArr[2].position);
+                tvEyeShape.spline.SetPosition(1, initShapePosArr[3].position);
+
+                tvBrandShape.spline.SetPosition(0, initShapePosArr[0].position);
+                tvBrandShape.spline.SetPosition(1, initShapePosArr[1].position);
+            }
             private void HandleAccessory() 
             {
                 tvEyeShape.spline.SetPosition(0, edgeCollider.points[2]);
@@ -397,7 +389,7 @@ namespace RitualNight
                 lineArr[BounceSide].startColor = Color.yellow;
                 lineArr[BounceSide].endColor = Color.yellow;
             }
-            private void TurnAllSidesBlue()
+            public void TurnAllSidesBlue()
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -528,7 +520,6 @@ namespace RitualNight
 
             public void KnobGrabbed(int _cornerIndex)
             {
-                print(_cornerIndex);
                 isGrabbing = true;
                 _currentCornerIndex = _cornerIndex;
                 if (BounceSide == _cornerIndex)
@@ -541,7 +532,6 @@ namespace RitualNight
                 }
                 lineArr[GrabAltSide].startColor = Color.yellow;
                 lineArr[GrabAltSide].endColor = Color.yellow;
-                print(GrabAltSide);
             }
             public void KnobReleased()
             {
@@ -603,7 +593,17 @@ namespace RitualNight
                     //Gizmos.DrawSphere(tvShape.spline.GetPosition(i) + tvShape.transform.position, 0.1f);
                 }
             }
+            public void ShowWinScreen()
+            {
+                winScreenFilter.gameObject.SetActive(true);
+                Vector3[] screenVertexPos = _barMeshFilter.mesh.vertices;
 
+                screenVertexPos[0] = tvShape.spline.GetPosition(1) + transform.position;
+                screenVertexPos[1] = tvShape.spline.GetPosition(0) + transform.position;
+                screenVertexPos[2] = tvShape.spline.GetPosition(2) + transform.position;
+                screenVertexPos[3] = tvShape.spline.GetPosition(3) + transform.position;
+                winScreenFilter.mesh.vertices = screenVertexPos;
+            }
 
         }
     }

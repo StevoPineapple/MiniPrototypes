@@ -1,0 +1,26 @@
+crowdF 10
+crowd 9
+crowd hint -4
+
+
+Knob 4
+KnobBG 3
+TvEyes 3
+TvBrand 3 
+TvBorder shape 2
+
+Dot 1
+Traj Logo 1
+
+Corner 0
+CornerBG-1
+Logo 0
+
+
+
+
+SideLines -2
+SpawnArea Fill -3
+TvFill -4
+
+TvLeg -5

@@ -36,10 +36,12 @@ namespace RitualNight
             public int ShortestVertex;
 
             [Header("Ghost")]
-            public int ghostCount = 5;        // Number of ghost images
+            [SerializeField] private GameObject GhostPrefab;
+            private Transform _ghostParent;
             public float ghostDelay = 0.1f;   // Delay between ghost images in seconds
-            public float ghostAlpha = 0.5f;
 
+            [Header("Debug")]
+            public bool DebugMode;
             //[SerializeField] private bool
             private void Awake()
             {
@@ -65,23 +67,15 @@ namespace RitualNight
             {
                 while (true)
                 {
-                    for (int i = 0; i < ghostCount; i++)
+                    for (int i = 0; i < tvController.BounceCount; i++)
                     {
                         yield return new WaitForSeconds(ghostDelay);
 
-                        GameObject ghost = new GameObject("Ghost");
-                        SpriteRenderer ghostRenderer = ghost.AddComponent<SpriteRenderer>();
-                        ghostRenderer.sprite = _sprRend.sprite;
-                        ghostRenderer.sortingOrder = -1;
-                        ghostRenderer.color = new Color(1f, 1f, 1f, ghostAlpha);
-
-                        ghost.transform.position = transform.position;
-                        ghost.transform.rotation = transform.rotation;
-                        ghost.transform.localScale = transform.localScale;
-
-                        Destroy(ghost, ghostDelay * (ghostCount + 1)); // Destroy ghosts after a certain time
+                        GameObject _ghost = Instantiate(GhostPrefab, transform.position, transform.rotation, _ghostParent);
+                        _ghost.GetComponent<SpriteRenderer>().color = new Color(_sprRend.color.r, _sprRend.color.g, _sprRend.color.b,0.5f);
+                        Destroy(_ghost, ghostDelay * (tvController.BounceCount + 1)); // Destroy ghosts after a certain time
                     }
-                    yield return new WaitForEndOfFrame();
+                    yield return new WaitForFixedUpdate();
                 }
             }
 
@@ -103,7 +97,6 @@ namespace RitualNight
             }
             private void Update()
             {
-                ghostCount = tvController.BounceCount;
                 //Control speed
                 if (!_isStopped)
                 {
@@ -360,7 +353,7 @@ namespace RitualNight
                         return;
                     }
                     RaycastHit2D[] _boxHit = Physics2D.BoxCastAll(transform.position+_checkDeltaPos, _selfCollider.size, 0,Vector2.zero);
-                    DebugDrawBoxCast(transform.position + _checkDeltaPos, _selfCollider.size);
+                    if (DebugMode){DebugDrawBoxCast(transform.position + _checkDeltaPos, _selfCollider.size); }
                     foreach (RaycastHit2D hit in _boxHit)
                     {
                         if (hit.collider != null && hit.collider.tag == "TvWall_DV")
@@ -457,13 +450,13 @@ namespace RitualNight
                     if (_currSide != -1)
                     {
                         float _dist = Vector2.Distance(_corner, rayhit.point);
-                        Debug.DrawLine(_corner, rayhit.point, Color.white, 3);
+                        if (DebugMode) { Debug.DrawLine(_corner, rayhit.point, Color.white, 3); }
                         if (_dist < _currShortestDist)
                         {
                             _newShortestDist = _dist;
                             _newHitSide = _currSide;
                             _shortestVertex = _cornerIndex;
-                            Debug.DrawLine(_corner, rayhit.point, Color.yellow, 3);
+                            if (DebugMode) { Debug.DrawLine(_corner, rayhit.point, Color.yellow, 3); }
                             return;
                         }
                     }
@@ -474,11 +467,14 @@ namespace RitualNight
             }
             private void OnDrawGizmos()
             {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawSphere(debug1, 0.1f);
-                Gizmos.DrawSphere(debug2, 0.1f);
-                Gizmos.DrawSphere(debug3, 0.1f);
-                Gizmos.DrawSphere(debug4, 0.1f);
+                if (DebugMode)
+                {
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawSphere(debug1, 0.1f);
+                    Gizmos.DrawSphere(debug2, 0.1f);
+                    Gizmos.DrawSphere(debug3, 0.1f);
+                    Gizmos.DrawSphere(debug4, 0.1f);
+                }
             }
 
             public void LaunchTrajectoryCopy()
@@ -491,13 +487,15 @@ namespace RitualNight
             {
                _copyObject.SetNewLife(transform.position, _selfVelocity);
             }
-            public void SetValues(Transform _tvParent, Transform _copyParent, Transform _dotParent, TvController_DV _tvController, GameObject _copyPrefabPara, int _life, float _slowRate, float _trajspdMulti)
+            public void SetValues(Transform _tvParent, Transform _copyParent, Transform _dotParent, Transform _ghostParent,
+                TvController_DV _tvController, GameObject _copyPrefab, int _life, float _slowRate, float _trajspdMulti)
             {
                 slowRate = _slowRate;
                 this._dotParent = _dotParent;
                 this._tvParent = _tvParent;
                 this._copyParent = _copyParent;
-                _copyPrefab = _copyPrefabPara;
+                this._copyPrefab = _copyPrefab;
+                this._ghostParent = _ghostParent;
 
                 trajectoryLife = _life;
                 trajectorySpeedMulti = _trajspdMulti;

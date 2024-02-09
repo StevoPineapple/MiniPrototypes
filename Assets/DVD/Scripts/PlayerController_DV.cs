@@ -28,6 +28,7 @@ namespace RitualNight
             [SerializeField] private Transform logoParent;
             [SerializeField] private Transform trajectoryObjParent;
             [SerializeField] private Transform dotParent;
+            [SerializeField] private Transform ghostParent;
 
             private LogoBehavior_DV _currentDisc;
             private TrajectoryLogo_DV _trajectoryDisc;
@@ -137,7 +138,7 @@ namespace RitualNight
 
                 _currentDisc = Instantiate(logoPrefab, _spawnPos, transform.rotation, logoParent).GetComponent<LogoBehavior_DV>();
                 _currentDisc.PlayerController = this;
-                _currentDisc.SetValues(logoParent, trajectoryObjParent, dotParent, tvController, trajectoryPrefab, trajectoryLife, slowRate, trajectorySpeedMulti);
+                _currentDisc.SetValues(logoParent, trajectoryObjParent, dotParent, ghostParent, tvController, trajectoryPrefab, trajectoryLife, slowRate, trajectorySpeedMulti);
 
                 _trajectoryDisc = _currentDisc.CreateLaunchCopy(_spawnPos - _currentDisc.transform.position);
 
@@ -167,7 +168,7 @@ namespace RitualNight
 
                     _currentDisc = Instantiate(logoPrefab, transform.position, transform.rotation, logoParent).GetComponent<LogoBehavior_DV>();
                     _currentDisc.PlayerController = this;
-                    _currentDisc.SetValues(logoParent, trajectoryObjParent, dotParent, tvController, trajectoryPrefab, trajectoryLife, slowRate, trajectorySpeedMulti);
+                    _currentDisc.SetValues(logoParent, trajectoryObjParent, dotParent, ghostParent, tvController, trajectoryPrefab, trajectoryLife, slowRate, trajectorySpeedMulti);
 
                     _trajectoryDisc = _currentDisc.CreateLaunchCopy(transform.position - _currentDisc.transform.position);
 
@@ -233,7 +234,7 @@ namespace RitualNight
                     tvController.ChangeSpeedIcon(2);
                 }
             }
-            private void OnTriggerEnter2D(Collider2D collision)
+            private void OnTriggerStay2D(Collider2D collision)
             {
                 if (IsGrabbing || !CanGrab)
                 {
@@ -252,7 +253,7 @@ namespace RitualNight
             }
             private void OnTriggerExit2D(Collider2D collision)
             {
-                if (IsGrabbing || !CanGrab)
+                if (IsGrabbing || !CanGrab || _currentKnob == null)
                 {
                     return;
                 }

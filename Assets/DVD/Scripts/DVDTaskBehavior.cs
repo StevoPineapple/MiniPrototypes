@@ -16,7 +16,7 @@ namespace RitualNight
             public int currentScore;
             public int targetScore;
             public int potentialScore;
-            
+
             //public SpriteRenderer[] barFillArr;
 
             [SerializeField] private MeshRenderer[] barFillRendererArr;
@@ -25,6 +25,12 @@ namespace RitualNight
             private int _barFillLength;
 
             [SerializeField] private float scoreBlinkSpeed;
+
+            [Header("Crowd")]
+            [SerializeField] private Sprite[] crowdHappySpriteArr;
+            [SerializeField] private Sprite[] crowdNormalSpriteArr;
+            [SerializeField] private SpriteRenderer[] crowdSprRendArr;
+            [SerializeField] private ObjectJumpy_BL[] crowdJumpyArr;
 
             [Header("MiniManager")]
             public DVDMiniManager DVMM;
@@ -35,6 +41,11 @@ namespace RitualNight
             }
             public void StartOpen() //override
             {
+                for(int i = 0; i< crowdSprRendArr.Length;i++)
+                {
+                    crowdSprRendArr[i].sprite = crowdNormalSpriteArr[i];
+                    crowdJumpyArr[i] = crowdSprRendArr[i].gameObject.GetComponent<ObjectJumpy_BL>();
+                }
                 PlayerController.StartGame();
                 //HasWon = false;
                 //base.StartOpen();
@@ -90,6 +101,9 @@ namespace RitualNight
                     PlayerController.CreateNewLogo(1);
                     return;
                 }
+                tvController.DisableAllKnobs();
+                tvController.TurnAllSidesBlue();
+
                 for (int i = currentScore; i < currentScore + _bounceAmount; i++)
                 {
                     if (i == _barFillLength)// if it goes over score limit...redundant???????
@@ -101,6 +115,7 @@ namespace RitualNight
                         }
                         return;
                     }
+                    barFillRendererArr[i].material.mainTexture = barFillTexArr[i];
                     barFillRendererArr[i].enabled = true;
                 }
                 currentScore += _bounceAmount;
@@ -133,15 +148,30 @@ namespace RitualNight
             {
                 if (currentScore > targetScore)
                 {
+                    tvController.ShowWinScreen();
+                    for (int i = 0; i < crowdSprRendArr.Length; i++)
+                    {
+                        crowdSprRendArr[i].sprite = crowdHappySpriteArr[i];
+                        crowdJumpyArr[i].Jump();
+                    }
+
                     HasWon = true;
                     StartCoroutine(DoFinishTaskFast());
+
                     DVMM.SetWin();
                     return true;
                 }
                 else if (currentScore == targetScore)
                 {
+                    tvController.ShowWinScreen();
+                    for (int i = 0; i < crowdSprRendArr.Length; i++)
+                    {
+                        crowdSprRendArr[i].sprite = crowdHappySpriteArr[i];
+                        crowdJumpyArr[i].Jump();
+                    }
                     HasWon = true;
                     StartCoroutine(DoFinishTask());
+
                     DVMM.SetWin();
                     return true;
                 }
