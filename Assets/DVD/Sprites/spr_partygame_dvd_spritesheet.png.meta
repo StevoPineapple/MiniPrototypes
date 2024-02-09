@@ -1,0 +1,719 @@
+fileFormatVersion: 2
+guid: 617bdb9eb4d1fb946af6524309e82129
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: spr_partygame_dvd_arrow
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 1960
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ce90c23f4858f141b7c9cfdb2497eca
+      internalID: -91979344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_bar
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 1960
+        width: 567
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b84cd194cf09a67498271c04f7e43de0
+      internalID: 1803309369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_circle_01
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 1960
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 429e8460607821c4c801f89309ffe022
+      internalID: -332836482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_circle_02
+      rect:
+        serializedVersion: 2
+        x: 796
+        y: 1960
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70a424d5f3028c542b15ae2db51840f2
+      internalID: 1866684341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_circle_03
+      rect:
+        serializedVersion: 2
+        x: 885
+        y: 1960
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6412002a4e438844183b66bc059b9e11
+      internalID: 309698391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_circle_04
+      rect:
+        serializedVersion: 2
+        x: 974
+        y: 1960
+        width: 63
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e88cac654ccfd44285a4f96bb81ad27
+      internalID: 707869585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_crowd_back
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 368
+        width: 566
+        height: 426
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f672e2fcc5de8344ba03182eabbb1af2
+      internalID: 230555074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_crowd_happy
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 340
+        width: 390
+        height: 454
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c88646386a09e7b4db817ccc9af125b6
+      internalID: 214539690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_crowd_neutral
+      rect:
+        serializedVersion: 2
+        x: 1033
+        y: 340
+        width: 390
+        height: 454
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5a79e153c0208f44890c099f39c2e61
+      internalID: -2105263945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_eye_hit
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 1192
+        width: 670
+        height: 251
+      alignment: 9
+      pivot: {x: 0.5, y: 0.13545817}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5499fd4f52f21846ae36e6d81318ab1
+      internalID: -98397718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_eye_left
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 1695
+        width: 672
+        height: 172
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0771506ee6cb0eb41be6c45d19547056
+      internalID: -68592486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_eye_neutral
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 1695
+        width: 672
+        height: 172
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2552166212d3fb4faed54857d316901
+      internalID: -360120771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_eye_right
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 1497
+        width: 672
+        height: 172
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f76cfee5e9c11414a8eb8e1911aff027
+      internalID: 1143898678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_hint
+      rect:
+        serializedVersion: 2
+        x: 1133
+        y: 820
+        width: 583
+        height: 346
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4abe4dd15aa30e419c7c4c9bbf7b87b
+      internalID: 786986595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_knob
+      rect:
+        serializedVersion: 2
+        x: 1708
+        y: 1893
+        width: 130
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 470368cecdec68444b26c3accbe57ec6
+      internalID: -273899840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_legs
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 840
+        width: 1082
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c386708bfb67a740bd8057474d088b5
+      internalID: -884844406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_logo_01
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 1731
+        width: 232
+        height: 136
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6eec605913fbf7243ac2aa2fbda0fe5e
+      internalID: 264061867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_logo_02
+      rect:
+        serializedVersion: 2
+        x: 1450
+        y: 1903
+        width: 232
+        height: 120
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e08b2e4329099fc4e8881df8fcb932e4
+      internalID: 789272669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_tv_BLCorner
+      rect:
+        serializedVersion: 2
+        x: 723
+        y: 1469
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d74f5f4a8a4e99c4e8d11ced54bf828e
+      internalID: -2009073198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_tv_BRCorner
+      rect:
+        serializedVersion: 2
+        x: 949
+        y: 1469
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c0ce120ac3befb41a1937fd823ac64b
+      internalID: -1860475074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_tv_LCorner
+      rect:
+        serializedVersion: 2
+        x: 1175
+        y: 1469
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8708738a7d11c445b6574cc9127fc0f
+      internalID: -1590664378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_tv_left
+      rect:
+        serializedVersion: 2
+        x: 1449
+        y: 194
+        width: 200
+        height: 600
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03b4318b2d7c69c4da8a383333651997
+      internalID: 368765208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_tv_RCorner
+      rect:
+        serializedVersion: 2
+        x: 1401
+        y: 1469
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8a8eff821b886345bf7db41f3595e72
+      internalID: -1031119619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_tv_right
+      rect:
+        serializedVersion: 2
+        x: 1675
+        y: 194
+        width: 200
+        height: 600
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9735d57edee71944af5b7aad2ee11cf
+      internalID: 498891320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_tv_top
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 1243
+        width: 800
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cd7cace30d7a1b4f977e274b7887cbe
+      internalID: 1058456052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_dvd_tvname
+      rect:
+        serializedVersion: 2
+        x: 1063
+        y: 1910
+        width: 361
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0d45d1c366bb674c926b2247f6f7c13
+      internalID: -1442042319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 16d53f667d21f0a45b7423f226eba768
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      spr_partygame_dvd_arrow: -91979344
+      spr_partygame_dvd_bar: 1803309369
+      spr_partygame_dvd_circle_01: -332836482
+      spr_partygame_dvd_circle_02: 1866684341
+      spr_partygame_dvd_circle_03: 309698391
+      spr_partygame_dvd_circle_04: 707869585
+      spr_partygame_dvd_crowd_back: 230555074
+      spr_partygame_dvd_crowd_happy: 214539690
+      spr_partygame_dvd_crowd_neutral: -2105263945
+      spr_partygame_dvd_eye_hit: -98397718
+      spr_partygame_dvd_eye_left: -68592486
+      spr_partygame_dvd_eye_neutral: -360120771
+      spr_partygame_dvd_eye_right: 1143898678
+      spr_partygame_dvd_hint: 786986595
+      spr_partygame_dvd_knob: -273899840
+      spr_partygame_dvd_legs: -884844406
+      spr_partygame_dvd_logo_01: 264061867
+      spr_partygame_dvd_logo_02: 789272669
+      spr_partygame_dvd_tv_BLCorner: -2009073198
+      spr_partygame_dvd_tv_BRCorner: -1860475074
+      spr_partygame_dvd_tv_LCorner: -1590664378
+      spr_partygame_dvd_tv_RCorner: -1031119619
+      spr_partygame_dvd_tv_left: 368765208
+      spr_partygame_dvd_tv_right: 498891320
+      spr_partygame_dvd_tv_top: 1058456052
+      spr_partygame_dvd_tvname: -1442042319
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

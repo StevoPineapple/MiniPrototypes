@@ -19,7 +19,6 @@ public class WinePourManager : MiniGameManager
 
     public GameObject LoseObject;
 
-    bool firstTime = true;
     float targetPos;
     float targetMaxY;
     float targetMinY;

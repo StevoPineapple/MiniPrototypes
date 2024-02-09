@@ -1,0 +1,477 @@
+fileFormatVersion: 2
+guid: c552c6f461b1781459c4fe162d4cbaeb
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: spr_partygame_bell_bell
+      rect:
+        serializedVersion: 2
+        x: 1375
+        y: 1824
+        width: 198
+        height: 192
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff4c7ef4396317549a15c3e698d955e6
+      internalID: 4331836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_button
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 1911
+        width: 112
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5054dbe3617b2a1499c726a3ba99ba8a
+      internalID: -1034757407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_hammer_01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 1573
+        width: 493
+        height: 219
+      alignment: 9
+      pivot: {x: 0.95740366, y: 0.20547944}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46f1b6b2f1f5d1046b1a46bf61cc98f4
+      internalID: 1284869619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_hammer_02
+      rect:
+        serializedVersion: 2
+        x: 557
+        y: 1573
+        width: 487
+        height: 219
+      alignment: 9
+      pivot: {x: 0.95482546, y: 0.10958904}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85f23fe726119a44fbce2d31ee56ccc5
+      internalID: -1950889881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_hammer_03
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 1241
+        width: 465
+        height: 296
+      alignment: 9
+      pivot: {x: 0.9505376, y: 0.08783784}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3656f095bdb9b5b468fcb382a0747024
+      internalID: -850140632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_hammer_04
+      rect:
+        serializedVersion: 2
+        x: 1466
+        y: 1059
+        width: 274
+        height: 478
+      alignment: 9
+      pivot: {x: 0.08394161, y: 0.04811715}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 590e2d08abd1a274087c348bdf687431
+      internalID: 928595358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_hammer_05
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 1119
+        width: 328
+        height: 418
+      alignment: 9
+      pivot: {x: 0.07012195, y: 0.05980861}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd325c77a3d71224893a9d7594f77287
+      internalID: -1628572537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_hammer_06
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 1186
+        width: 545
+        height: 351
+      alignment: 9
+      pivot: {x: 0.9559633, y: 0.06267806}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa6d8b34f73fc1b4a9047436a5fa388b
+      internalID: -1243646691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_hammer_07
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 1833
+        width: 544
+        height: 183
+      alignment: 9
+      pivot: {x: 0.9558824, y: 0.42076504}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee444df6ef50bbb49a68f9bb5811f796
+      internalID: 114324200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_okaybell
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 1929
+        width: 219
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f5825c37fcecf14ebe4178679c1be80
+      internalID: 75850092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_okaybell_bell
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 1866
+        width: 83
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6509376fc7be13f488f7d54fa7166710
+      internalID: -569258000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_slider
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 1928
+        width: 54
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91b4ff41f463f2b47af37e0cbbc2ab4e
+      internalID: 2146415962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_tower_10count
+      rect:
+        serializedVersion: 2
+        x: 1772
+        y: 137
+        width: 139
+        height: 1400
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cadcfa53626c57745a3734a3e5bba938
+      internalID: 1215729621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_tower_1count
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 1876
+        width: 139
+        height: 140
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 451b8e58805eb7e4ea9b3e82be01d4c6
+      internalID: -1395718623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_partygame_bell_towerbase
+      rect:
+        serializedVersion: 2
+        x: 1076
+        y: 1569
+        width: 552
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 864dab8bfb17cfd4381bc6dcee46081a
+      internalID: -71747578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 9c2cfd7742f114b43a63415826eae1ca
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      spr_partygame_bell_bell: 4331836
+      spr_partygame_bell_button: -1034757407
+      spr_partygame_bell_hammer_01: 1284869619
+      spr_partygame_bell_hammer_02: -1950889881
+      spr_partygame_bell_hammer_03: -850140632
+      spr_partygame_bell_hammer_04: 928595358
+      spr_partygame_bell_hammer_05: -1628572537
+      spr_partygame_bell_hammer_06: -1243646691
+      spr_partygame_bell_hammer_07: 114324200
+      spr_partygame_bell_okaybell: 75850092
+      spr_partygame_bell_okaybell_bell: -569258000
+      spr_partygame_bell_slider: 2146415962
+      spr_partygame_bell_tower_10count: 1215729621
+      spr_partygame_bell_tower_1count: -1395718623
+      spr_partygame_bell_towerbase: -71747578
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

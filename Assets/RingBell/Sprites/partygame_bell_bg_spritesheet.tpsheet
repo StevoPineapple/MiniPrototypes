@@ -1,0 +1,19 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:882a9e0f7114686963ea08759947d9b8:4ce19d10891259fb9bfdb024019a4bfc:012f076b7c6def23d155834871c02e53$
+#
+:format=40300
+:texture=partygame_bell_bg_spritesheet.png
+:size=2048x2048
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+spr_partygame_bg_01;25;1047;866;976; 0.5;0.5; 0;0;0;0
+spr_partygame_bg_02;917;1048;866;975; 0.5;0.5; 0;0;0;0
+spr_partygame_bg_03;25;45;866;976; 0.5;0.5; 0;0;0;0
+spr_partygame_bg_04;917;28;866;993; 0.5;0.5; 0;0;0;0

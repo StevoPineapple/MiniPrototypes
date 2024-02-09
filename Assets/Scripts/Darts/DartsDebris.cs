@@ -13,7 +13,7 @@ public class DartsDebris : MonoBehaviour
 
     float rotationSpeed;
     float counterClockChance = 0.5f;
-    bool isCounterClock;
+    //bool isCounterClock;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +29,7 @@ public class DartsDebris : MonoBehaviour
         rotationSpeed = Random.Range(115f, 114f);
         if (Random.Range(0f, 1f) > counterClockChance)
         {
-            isCounterClock = true;
+            //isCounterClock = true;
             rotationSpeed = -rotationSpeed;
         }
     }
