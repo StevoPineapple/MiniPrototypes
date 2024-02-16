@@ -1,0 +1,37 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:32bfe418a0770134b7b53318fb200032:9aa03f4345d041fa88b0aa351c6be40c:b0cf4f3677586244cb726dde472c2c3a$
+#
+:format=40300
+:texture=spr_partygame_bell_basesprites.png
+:size=2048x2048
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+partygame_bell_airship;1767;1935;216;89; 0.5;0.5; 0;0;0;0
+partygame_bell_bg_pyramid;24;882;583;271; 0.5;0.5; 0;0;0;0
+partygame_bell_carnivalentrance;875;1409;826;352; 0.5;0.5; 0;0;0;0
+partygame_bell_fg_pyramid;875;885;702;345; 0.5;0.5; 0;0;0;0
+partygame_bell_mansion_floor;24;1177;827;592; 0.5;1.0; 0;0;0;0
+partygame_bell_mansion_house;1349;613;572;216; 0.5;0.5; 0;0;0;0
+partygame_bell_mansion_moon;1945;1477;42;44; 0.5;0.5; 0;0;0;0
+partygame_bell_mansion_tree;1767;1529;154;382; 0.5;0.5; 0;0;0;0
+partygame_bell_pyramid_skyborder;913;1785;830;239; 0.5;0.5; 0;0;0;0
+partygame_bell_space_burstcloud;24;1793;865;231; 0.5;0.5; 0;0;0;0
+partygame_bell_space_earth;875;1254;819;131; 0.5;0.5; 0;0;0;0
+partygame_bell_space_greenplanet;1725;1412;93;93; 0.5;0.5; 0;0;0;0
+partygame_bell_space_moon;1945;1751;67;67; 0.5;0.5; 0;0;0;0
+partygame_bell_space_pinkplanet;1945;1613;44;44; 0.5;0.5; 0;0;0;0
+partygame_bell_space_redplanet;1945;1545;44;44; 0.5;0.5; 0;0;0;0
+partygame_bell_space_satellite;1945;1842;74;69; 0.5;0.5; 0;0;0;0
+partygame_bell_space_ufo;1945;1681;56;46; 0.5;0.5; 0;0;0;0
+partygame_bell_void_cloud;1349;53;443;174; 0.5;0.5; 0;0;0;0
+partygame_bell_void_lightning;1349;251;475;338; 0.5;0.5; 0;0;0;0
+partygame_bell_void_nebula_bgmatter;24;183;624;646; 0.5;0.5; 0;0;0;0
+partygame_bell_void_nebula_matter;672;195;653;634; 0.5;0.5; 0;0;0;0
+partygame_bell_void_nebulacenter;1601;853;378;377; 0.5;0.5; 0;0;0;0

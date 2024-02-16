@@ -16,6 +16,7 @@ namespace RitualNight
             
             public RingBellTaskBehavior RBManager;
             [SerializeField] private ParallaxManager_RB paraManager;
+            [SerializeField] private LaunchBar_RB launchBar;
 
             /*private void OnEnable()
             {
@@ -95,7 +96,7 @@ namespace RitualNight
 
             private void MousePress()
             {
-                paraManager.Launch();
+                launchBar.OnMousePress();
             }
             private void MouseRelease()
             {

@@ -30,6 +30,15 @@ namespace RitualNight
             [Header("Set Pos in View Mode")]
             public bool SetPosInView;
 
+            [Header("Skew")]
+            public bool IsSkewing;
+            [SerializeField] private float startSkew;
+            [SerializeField] private Transform startSkewPoint;
+            [SerializeField] private float endSkew;
+            [SerializeField] private Transform endSkewPoint;
+            private float _skewPosRange;
+
+
             private void Awake()
             {
                 if (DebugMode)
@@ -39,6 +48,7 @@ namespace RitualNight
                 _initPos = transform.position;
                 _anchorInitPos = AnchorTrans.position;
                 _isParented = (transform.parent.tag == "Parent_RB");
+
                 if (_isParented)
                 {
                     _parentInitPos = transform.parent.position;
@@ -74,6 +84,10 @@ namespace RitualNight
                 }
                 if (ViewMode)
                 {
+                    if (IsSkewing)
+                    {
+                        _skewPosRange = (endSkewPoint.position.y - startSkewPoint.position.y) + 0.0001f;
+                    }
                     if (SetPosInView) //Init pos
                     {
                         _initPos = transform.position - new Vector3(0, +AnchorTrans.position.y * adjustAmount, 0);
@@ -109,14 +123,12 @@ namespace RitualNight
             }
             private void ParallaxMovement()
             {
-                //if (_isParented)
-                //{
-                //    transform.position = new Vector3(transform.position.x, _initPos.y + (AnchorTrans.position.y - _anchorInitPos.y) * adjustAmount - (transform.parent.position.y - _parentInitPos.y), 0);
-                //}
-                //else
-                //{
-                    transform.position = new Vector3(transform.position.x, _initPos.y + (AnchorTrans.position.y - _anchorInitPos.y) * adjustAmount, 0);
-                //}
+                transform.position = new Vector3(transform.position.x, _initPos.y + (AnchorTrans.position.y - _anchorInitPos.y) * adjustAmount, 0);
+                if(IsSkewing && _skewPosRange != 0 )
+                {
+                    float _skewAmount = Mathf.Lerp(startSkew, endSkew, Mathf.Clamp((AnchorTrans.position.y - startSkewPoint.position.y),_skewPosRange,0) / _skewPosRange);
+                    transform.localScale = new Vector3(transform.localScale.x, _skewAmount, transform.localScale.z);
+                }
             }
             private void Update()
             {

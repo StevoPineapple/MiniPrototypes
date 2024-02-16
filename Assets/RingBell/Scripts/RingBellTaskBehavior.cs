@@ -9,8 +9,17 @@ namespace RitualNight
     {
         public class RingBellTaskBehavior : MonoBehaviour//TaskBehavior
         {
+            [Header("Components")]
+            public LaunchBar_RB LaunchBar;
+            public ParallaxManager_RB ParaManager;
             public bool HasWon;
             
+            [Header ("OkBell")]
+            [SerializeField] private Transform okBellTrans;
+            [SerializeField] private Transform SlideyTrans;
+            [SerializeField] private GameObject eggCry;
+            [SerializeField] private AnimationCurve returnTimeCurve;
+
             [Header ("MiniManager")]
             public RingBellMiniManager RBMM;
 
@@ -20,30 +29,58 @@ namespace RitualNight
             }
             public void StartOpen() //override
             {
+                ResetGame();
+                ParaManager.StartGame();
+                LaunchBar.StartGame();
                 //PlayerController.StartSetUp();
                 //HasWon = false;
                 //base.StartOpen();
             }
-            private IEnumerator DoFinishTask()
+            private IEnumerator DoFinishTask(float _heightScore)
             {
                 //SetPartyGameResult(true);
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(returnTimeCurve.Evaluate(_heightScore));
                 //SetStateClosing();
                 StartClose();
+                HasWon = true;
+                RBMM.SetWin();
             }
                             
             public void StartClose() //override 
             {
+                LaunchBar.ResetGame();
+                ParaManager.ResetGame();
+                ResetGame();
                 //PlayerController.CloseGame();
                 //PlayerController.gameObject.SetActive(false);
 
                 //base.StartClose();
             }
-
-            public void WinCheck()
+            public void WinCheck(bool _isOK, float _heightScore)
             {
-                HasWon = true;
-                RBMM.SetWin();
+                if (_isOK)
+                {
+                    StartCoroutine(DoFinishTask(_heightScore));
+                    //set win with time ratio
+                }
+                else
+                {
+                    eggCry.SetActive(true);
+                    StartCoroutine(DoResetGame());
+                }
+            }
+            IEnumerator DoResetGame()
+            {
+                yield return new WaitForSeconds(1.5f);
+
+                ResetGame();
+                ParaManager.StartGame();
+                LaunchBar.StartGame();
+            }
+            private void ResetGame()
+            {
+                StopAllCoroutines();
+                eggCry.SetActive(false);
             }
         }
     }

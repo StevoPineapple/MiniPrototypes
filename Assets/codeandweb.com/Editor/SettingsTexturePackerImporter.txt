@@ -1,15 +1,21 @@
 version: 2
 tpsheetFileNames:
 - Assets/DVD/Sprites/spr_partygame_dvd_spritesheet.tpsheet
+- Assets/RingBell/Sprites/BG/spr_partygame_bell_backgrounds.tpsheet
+- Assets/RingBell/Sprites/BG/spr_partygame_bell_basesprites.tpsheet
 - Assets/RingBell/Sprites/partygame_bell_bg_spritesheet.tpsheet
 - Assets/RingBell/Sprites/partygame_ringthebell_spritesheet.tpsheet
 - Assets/RingBell/Sprites/Things/partygame_bell_spritesheet.tpsheet
 textureFileNames:
 - Assets/DVD/Sprites/spr_partygame_dvd_spritesheet.png
+- Assets/RingBell/Sprites/BG/spr_partygame_bell_backgrounds.png
+- Assets/RingBell/Sprites/BG/spr_partygame_bell_basesprites.png
 - Assets/RingBell/Sprites/partygame_bell_bg_spritesheet.png
 - Assets/RingBell/Sprites/partygame_ringthebell_spritesheet.png
 - Assets/RingBell/Sprites/Things/partygame_bell_spritesheet.png
 normalmapFileNames:
+- 
+- 
 - 
 - 
 - 

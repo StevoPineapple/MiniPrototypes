@@ -36,7 +36,7 @@ public class RingBellMiniManager : MiniGameManager
     {
         HasWon = true;
         WinObject.SetActive(true);
-        yield return new WaitForSeconds(GameSelect.GameCloseTime);
+        yield return new WaitForEndOfFrame();
         GameSelectManager.QuitGame();
     }
 }
