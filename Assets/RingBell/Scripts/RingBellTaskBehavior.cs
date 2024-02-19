@@ -45,7 +45,11 @@ namespace RitualNight
                 HasWon = true;
                 RBMM.SetWin();
             }
-                            
+
+            public float GetReturnTime(float _heightScore)
+            {
+                return returnTimeCurve.Evaluate(_heightScore);
+            }
             public void StartClose() //override 
             {
                 LaunchBar.ResetGame();

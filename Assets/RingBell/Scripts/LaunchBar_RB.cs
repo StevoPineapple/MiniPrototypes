@@ -8,47 +8,47 @@ namespace RitualNight
     {
         public class LaunchBar_RB : MonoBehaviour
         {
+            // Important: The number of hammer hits is hard coded as 5
             [Header("Components")]
             [SerializeField] private GameObject currTriangleObj;
             [SerializeField] private ParallaxManager_RB parallaxManager;
             [SerializeField] private GameObject[] triangleObjArr;
             private Triangle_RB[] _triangleArr = new Triangle_RB[5];
+            private float[] pastTriangleAngleArr = new float[5];
+            private int[] pastTriSignArr = new int[5];
 
             [Header("States")]
+            
+            //Unused, should replace hardcoded number as hit times
             [SerializeField] private int totalHitTimes;
+
             private bool _isHammerDown;
 
-            [Header("Bar")]
-            private float barOffSet;
-            [SerializeField] private GameObject barFillObject;
-
+            [Header ("See Values")]
             [SerializeField] private float rotateSpeed;
+            [SerializeField] private float slideSpeed;
+            [SerializeField] private float totalErrorPoints;
 
+            [Header("Bar")]
+            [SerializeField] private GameObject barFillObject;
+            private float barOffSet;
+            
             [SerializeField] private float maxRotateSpeed;
             [SerializeField] private float rotateSpeedInit;
             private bool _isRotateLeft;
 
             [SerializeField] private float maxAngleOneSide;
             [SerializeField] private float hitDelay;
-            private float _maxAngleFull;
             [SerializeField] private float rotateSpeedIncreaseMulti;
 
             private float rotateAngle;
             [Header("Sliding")]
             
             private bool _isTriSliding;
-            [SerializeField] private float slideSpeed;
-            [SerializeField] private float slideDACCLerpInit;
             [SerializeField] private float[] slideDACCLerpArr = new float[5];
             [SerializeField] private float[] slideColorAdditionArr = new float[5]; //0 is blue
             [SerializeField] private float slideDACCLerpDecrease;
             [SerializeField] private float minSlideSpeedThreshold;
-
-
-            private float[] pastTriangleAngleArr = new float[5];
-            private int[] pastTriSignArr = new int[5];
-
-
 
             [Header ("Color")]
             [SerializeField] private float barBlueAngle;
@@ -64,16 +64,21 @@ namespace RitualNight
             [SerializeField] private Color barRedCol;
 
             [Header("Hammer")]
-            [SerializeField] private GameObject flashScreen;
+            private int hammerCount;
+            [SerializeField] private Transform hammerCountSprParent;
+            [SerializeField] private SpriteRenderer[] hammerCountSprArr;
+            [SerializeField] private Transform hammerCountSprInitTrans;
+            [SerializeField] private Transform hammerCountSprResultTrans;
 
             [SerializeField] private SpriteRenderer hammerSprRend;
+            private Vector3 _hammerInitPos;
+            [SerializeField] private float hammerShake1;
+            [SerializeField] private float hammerShake2;
             [SerializeField] private Sprite hammerIdle;
             [SerializeField] private Sprite[] hammerRaiseArr;
             [SerializeField] private Sprite[] hammerSmashArr;
             private int _maxHammerCount = 5;
-            private int hammerCount;
-            [SerializeField] private float totalErrorPoints;
-            [SerializeField] private float errorPointsAdj;
+            [SerializeField] private GameObject flashScreen;
 
             [Header("Ghost")]
             private float[] _ghostAngleArr = new float[5];
@@ -86,8 +91,7 @@ namespace RitualNight
             public bool DebugBlendMode;
 
             private void Awake()
-            {
-                _maxAngleFull = maxAngleOneSide * 2;
+            {                
                 for (int i = 0; i < 5; i++)
                 {
                     _triangleArr[i] = triangleObjArr[i].GetComponent<Triangle_RB>();
@@ -95,6 +99,7 @@ namespace RitualNight
             }
             public void StartGame()
             {
+                _hammerInitPos = hammerSprRend.gameObject.transform.position;
                 ResetGame();
                 flashScreen.SetActive(false);
                 triangleObjArr[0].SetActive(true);
@@ -102,15 +107,16 @@ namespace RitualNight
 
             }
 
-            // Update is called once per frame
-            public float debugEAz;
-            public float debugOffset;
-            void Update()
+            private void FixedUpdate()
             {
                 if (DebugLaunch)
                 {
                     OnMousePress();
                 }
+            }
+            void Update()
+            {
+
                 if (Input.GetKeyDown(KeyCode.R) && DebugMode)
                 {
                     StartGame();
@@ -120,6 +126,19 @@ namespace RitualNight
                 {
                     currTriangleObj.GetComponent<Triangle_RB>().Pass(1);
                 }
+
+                if (!_isHammerDown)
+                {
+                    if (hammerCount == 3)
+                    {
+                        hammerSprRend.gameObject.transform.position = new Vector3(_hammerInitPos.x + Random.Range(-hammerShake1, hammerShake1), _hammerInitPos.y + Random.Range(-hammerShake1, hammerShake1), 0);
+                    }
+                    else if (hammerCount == 4)
+                    {
+                        hammerSprRend.gameObject.transform.position = new Vector3(_hammerInitPos.x + Random.Range(-hammerShake2, hammerShake2), _hammerInitPos.y + Random.Range(-hammerShake2, hammerShake2), 0);
+                    }
+                }
+
                 if (!_isTriSliding&&!_isHammerDown)
                 {
                     RotateTriangle(rotateSpeed);
@@ -129,12 +148,7 @@ namespace RitualNight
 
                 if (Mathf.Abs(barFillObject.transform.rotation.eulerAngles.z - barOffSet) > 0.001f)
                 {
-                    debugEAz = barFillObject.transform.rotation.eulerAngles.z;
-                    debugOffset = barOffSet;
                     float _adjAngle = barFillObject.transform.rotation.eulerAngles.z>180? barFillObject.transform.rotation.eulerAngles.z-360: barFillObject.transform.rotation.eulerAngles.z;
-
-
-
                     barFillObject.transform.rotation = Quaternion.Euler(0, 0, Mathf.Lerp(_adjAngle, barOffSet, 0.8f));
                 }
 
@@ -240,21 +254,21 @@ namespace RitualNight
                     RotateTriangle(slideSpeed);
                    // CheckPassTriangle(ref slideSpeed);
                     slideSpeed = Mathf.Lerp(slideSpeed, 0, slideDACCLerpArr[hammerCount]); 
-                    yield return new WaitForEndOfFrame();
+                    yield return new WaitForFixedUpdate();
                 }
-                yield return new WaitForSeconds(0.4f);
-                
 
-                //slideDACCLerp -= slideDACCLerpDecrease;
+                _triangleArr[hammerCount].PuttingDown();
+                hammerCountSprArr[hammerCount].enabled = false;
+                
+                yield return new WaitForSeconds(0.4f);
                 slideSpeed = 0;
                 
                 RaiseHammer();
             }
             void RaiseHammer()
             {
-
                 float _adjustedAngle = Mathf.Abs(barOffSet - rotateAngle);
-                totalErrorPoints += _adjustedAngle;
+                totalErrorPoints += Mathf.Clamp(_adjustedAngle,0,maxAngleOneSide);
                 BlendTriangle(_adjustedAngle);
                 _isTriSliding = false;
 
@@ -318,39 +332,45 @@ namespace RitualNight
                     rotateSpeed += slideColorAdditionArr[0];
                     _triangleArr[hammerCount].BlendColor(barBlueCol);
                     totalErrorPoints -= 1.5f;//
+                    hammerCountSprArr[hammerCount].color = barBlueCol;
                 }
                 else if (_angle < barGreenAngle)
                 {
                     rotateSpeed += slideColorAdditionArr[1];
                     _triangleArr[hammerCount].BlendColor(barGreenCol);
+                    hammerCountSprArr[hammerCount].color = barGreenCol;
                 }
                 else if (_angle < barYellowAngle)
                 {
                     rotateSpeed += slideColorAdditionArr[2];
                     _triangleArr[hammerCount].BlendColor(barYellowCol);
+                    hammerCountSprArr[hammerCount].color = barYellowCol;
                 }
                 else if (_angle < barOrangeAngle)
                 {
                     rotateSpeed += slideColorAdditionArr[3];
                     _triangleArr[hammerCount].BlendColor(barOrangeCol);
+                    hammerCountSprArr[hammerCount].color = barOrangeCol;
                 }
                 else
                 {
                     rotateSpeed += slideColorAdditionArr[4];
                     _triangleArr[hammerCount].BlendColor(barRedCol);
+                    hammerCountSprArr[hammerCount].color = barRedCol;
                 }
             }
             void SmashHammer()
             {
                 _isHammerDown = true;
+                hammerSprRend.gameObject.transform.position = _hammerInitPos;
                 StartCoroutine(DoHammerAnimation());
             }
-            public float debug4;
+            public float debugLaunchError;
             void Launch()
             {
                 if (DebugMode)
                 {
-                    parallaxManager.Launch(debug4);
+                    parallaxManager.Launch(debugLaunchError);
                     return;
                 }
                 parallaxManager.Launch(totalErrorPoints);
@@ -365,21 +385,24 @@ namespace RitualNight
 
                 hammerCount = 0;
                 hammerSprRend.sprite = hammerIdle;
+                hammerSprRend.gameObject.transform.position = _hammerInitPos;
                 _isHammerDown = false;
+                hammerCountSprParent.position = hammerCountSprInitTrans.position;
 
-                //slideDACCLerp = slideDACCLerpArr;
                 _isTriSliding = false;
 
                 totalErrorPoints = 0;
 
                 foreach (Triangle_RB _tri in _triangleArr)
                 {
-                    _tri.BlendColor(Color.white);
-                    _tri.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    _tri.ResetGame();
                     _tri.gameObject.SetActive(false);
                 }
                 for(int i=0;i<5; i++)
                 {
+                    hammerCountSprArr[i].color = new Color(1,1,1,0.5f);
+                    hammerCountSprArr[i].enabled = true;
+
                     _ghostAngleArr[i] = 0;
                     ghostTriangleArr[i].SetActive(false);
 
@@ -404,7 +427,21 @@ namespace RitualNight
                 flashScreen.SetActive(true);
                 yield return new WaitForSeconds(hitDelay);
                 flashScreen.SetActive(false);
+
+                hammerCountSprParent.position = hammerCountSprResultTrans.position;
                 Launch();
+            }
+            public void ShowResult(float _delayTime)
+            {
+                StartCoroutine(DoShowResult(_delayTime));
+            }
+            IEnumerator DoShowResult(float _delayTime)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    hammerCountSprArr[i].enabled = true;
+                    yield return new WaitForSeconds(_delayTime/5);
+                }
             }
         }
     }

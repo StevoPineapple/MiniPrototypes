@@ -12,6 +12,7 @@ namespace RitualNight
         {
             public RingBellTaskBehavior RBManager;
             public ScrollCameraManager_RB CamManager;
+            [SerializeField] private LaunchBar_RB launchBar;
             public bool DebugMode;
             public bool AllViewMode;
             public bool AllSetPosInView;
@@ -32,8 +33,8 @@ namespace RitualNight
             [SerializeField] private float heightMultAdj;
 
             [Header("Slidey")]
-            private bool _isMoveSlidey;
             public bool IsLaunched;
+            private bool _isMoveSlidey;
             [SerializeField] private Transform SlideyInitTrans;
             [SerializeField] private GameObject SlideyObject;
             [SerializeField] private float gravity;
@@ -57,6 +58,21 @@ namespace RitualNight
             [SerializeField] private float errorPointsAdj;
             [SerializeField] private float launchToUpSpeedRatio;
 
+            [Header ("Bell")]
+            [SerializeField] private GameObject topBellObject;
+            [SerializeField] private Transform topBellObjectInitTrans;
+            [SerializeField] private float breakBellMinSpd;
+            [SerializeField] private GameObject fireworkParticleObject;
+            private bool _brokenBell;
+            private bool _hitBell;
+
+            [Header("Void")]
+            [SerializeField] private GameObject voidInner1;
+            [SerializeField] private GameObject voidInner2;
+            [SerializeField] private GameObject voidInner3;
+            [SerializeField] private float voidSpeed;
+
+
             [Header ("AutoMotion")]
             public bool AutoMotion;
             public float Amp;
@@ -66,11 +82,12 @@ namespace RitualNight
             private bool _isAutoMotionInit;
             private Vector3 _autoMotionInitPos;
 
-            public Transform debug3;
-            //Debug
-            private float debugSpeed;
-            private float debugAcc = 0.1f;
-            private float debugSpeedMax = 2;
+            [Header ("Debug")]
+            //Use this as a workaround to the para object pos shifting bug
+            [SerializeField] private bool debugDiscardParaObjInitPos;
+            [SerializeField] private Transform debugHeightTextPos;
+            public float debugGetRawLaunchSpeed;
+            public float debugGetErrorAmount;
 
 #if UNITY_EDITOR
             private void OnEnable()
@@ -222,26 +239,32 @@ namespace RitualNight
             private void OnDrawGizmos()
             {
                 if (!DebugMode)
-                { 
+                {
                     return;
                 }
 
-                if (Input.GetKey(KeyCode.LeftBracket))
-                {
-                    print("pressed");
-                    debugSpeed = Mathf.Clamp(debugSpeed + debugAcc, 0, debugSpeedMax);
-                    transform.position += new Vector3(0, debugSpeed, 0);
-                }
-                else if (Input.GetKey(KeyCode.RightBracket))
-                {
-                    debugSpeed = Mathf.Clamp(debugSpeed + debugAcc, 0, debugSpeedMax);
-                    transform.position -= new Vector3(0, debugSpeed, 0);
-                }
-                else
-                {
-                    debugSpeed = 0;
-                }
 
+                if (debugDiscardParaObjInitPos)
+                {
+                    foreach (Transform _child in transform)
+                    {
+                        if (_child.tag != "Static_RB")
+                        {
+                            if (_child.tag != "Parent_RB")
+                            {
+                                _child.GetComponent<ParallaxObject_RB>().DiscardInitPos();
+                            }
+                            else
+                            {
+                                foreach (Transform _nestedChild in _child)
+                                {
+                                    _nestedChild.GetComponent<ParallaxObject_RB>().DiscardInitPos();
+                                }
+                            }
+                        }
+                    }
+                    return;
+                }
                 if (AllViewMode)
                 {
                     _hasReturnToCamStart = false;
@@ -251,7 +274,7 @@ namespace RitualNight
 
                     Handles.Label(transform.position, "VIEW MODE", style);
                     style.fontSize = 20;
-                    Handles.Label(debug3.position, ((-transform.position.y+heightPlusAdj)*heightMultAdj).ToString(), style);
+                    Handles.Label(debugHeightTextPos.position, ((-transform.position.y+heightPlusAdj)*heightMultAdj).ToString(), style);
 
                     if (AutoMotion)
                     {
@@ -320,27 +343,60 @@ namespace RitualNight
 
                 if (IsLaunched)
                 {
+                    //voidInner1.transform.Rotate(0, 0, voidSpeed);
+                    voidInner2.transform.Rotate(0, 0, voidSpeed);
+                    voidInner2.transform.Rotate(0, 0, voidSpeed*0.7f);
                     if (okBellTrans.position.y < SlideyObject.transform.position.y)
                     {
                         IsOK = true;
+                        if (_brokenBell)
+                        {
+                            topBellObject.transform.position = SlideyObject.transform.position;
+                        }
+                        else if (topBellObject.transform.position.y < SlideyObject.transform.position.y)
+                        {
+                            if (currSpeed > breakBellMinSpd)
+                            {
+                                StartCoroutine(DoBrokenBell());
+                                _brokenBell = true;
+                            }
+                            else //Hit the bell;
+                            {
+                                _hitBell = true;
+                                SlideyObject.transform.position = topBellObject.transform.position;
+                            }
+                        }
+
                     }
 
                     float _fps = Application.targetFrameRate > -1 ? Application.targetFrameRate : 60; //Used to keep the current speed tune
                     currSpeed -= gravityCurve.Evaluate(currSpeed);
-                    if (currSpeed <= heightDisplayMinSpd)
+                    if (currSpeed <= heightDisplayMinSpd && !_brokenBell)
                     {
                         ShowHeight();
                     }
-                    if (!_isMoveSlidey)
+                    if (!_isMoveSlidey)//normal
                     {
-                        transform.position += new Vector3(0, -Mathf.Clamp(currSpeed, -999, maxUpSpeed), 0);
+                        if (!_hitBell)
+                        {
+                            //if hit bell, stay until speed turns to 0
+                            transform.position += new Vector3(0, -Mathf.Clamp(currSpeed, 0, maxUpSpeed), 0);
+                        }
                         SlideyObject.transform.position = new Vector3(0, Mathf.Pow(Mathf.Clamp(currSpeed - slideyDelayMinSpd, 0, slideyDelayMax), 2) * slideyDelayAdj, 0);
                     }
-                    else
+                    else//slidey fall
                     {
                         SlideyObject.transform.position -= new Vector3(0, -Mathf.Clamp(currSpeed, -999, maxUpSpeed), 0);
                     }
                 }
+            }
+            IEnumerator DoBrokenBell()
+            {
+                yield return new WaitForSeconds(0.5f);
+                fireworkParticleObject.SetActive(true);
+                topBellObject.gameObject.SetActive(false);
+                SlideyObject.gameObject.SetActive(false);
+                SetHeightBrokenBell();
             }
             private void ShowHeight()
             {
@@ -367,7 +423,19 @@ namespace RitualNight
                 heightText.color = Color.white;
                 heightLineSprRend.color = Color.white;
                 float _score = Mathf.Clamp01(Mathf.Abs((SlideyObject.transform.position.y - okBellTrans.position.y) / (SlideyObject.transform.position.y - topTrans.position.y)));
+
+                if (IsOK)
+                {
+                    launchBar.ShowResult(RBManager.GetReturnTime(_score) * 0.5f);//0.5 so there is time between show and end
+                }
+
                 RBManager.WinCheck(IsOK, _score);
+            }
+
+            private void SetHeightBrokenBell()
+            {
+                float _score = Mathf.Clamp01(Mathf.Abs((SlideyObject.transform.position.y - okBellTrans.position.y) / (SlideyObject.transform.position.y - topTrans.position.y)));
+                RBManager.WinCheck(IsOK, _score+0.2f);//score bonus to close faster
             }
 
             public void StartGame()
@@ -376,7 +444,18 @@ namespace RitualNight
             }
             public void ResetGame()
             {
+                StopAllCoroutines();
+                topBellObject.gameObject.SetActive(true);
+                topBellObject.transform.position = topBellObjectInitTrans.position;
+
+                SlideyObject.gameObject.SetActive(true);
                 SlideyObject.transform.position = SlideyInitTrans.position;
+
+                fireworkParticleObject.SetActive(false);
+
+                _hitBell = false;
+                _brokenBell = false;
+
                 IsOK = false;
                 _isMoveSlidey = false;
                 IsLaunched = false;
@@ -386,15 +465,14 @@ namespace RitualNight
                 _isHeightSet = false;
                 transform.position = CamManager.StartPos.position;
             }
-            public float debug1;
-            public float debug2;
+
             public void Launch(float _errorAmount)
             {
                 IsLaunched = true;
                 float _rawLaunchSpeed = maxLaunchSpeed - (_errorAmount * errorPointsAdj);
                 launchSpeed = Mathf.Clamp(launchSpeedAdjCurve.Evaluate(_rawLaunchSpeed),minLaunchSpeed,maxLaunchSpeed);
-                debug1 = maxLaunchSpeed - (_errorAmount * errorPointsAdj);
-                debug2 = _errorAmount;
+                debugGetRawLaunchSpeed = maxLaunchSpeed - (_errorAmount * errorPointsAdj);
+                debugGetErrorAmount = _errorAmount;
                 currSpeed = launchSpeed;
                 maxUpSpeed = Mathf.Clamp(upSpeedCurve.Evaluate(_rawLaunchSpeed * launchToUpSpeedRatio), clampMinUpSpeed, clampMaxUpSpeed);
             }

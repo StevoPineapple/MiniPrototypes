@@ -49,6 +49,31 @@ MonoBehaviour:
   spinSpeed: 0
   spinSpeedDecreaseLerp: 0.05
   spinSpeedMin: 3
+  _puttingDownCurveTimeIncrease: 0.1
+  putDownCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1.3255526
+      outSlope: 1.3255526
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.21128206
+    - serializedVersion: 3
+      time: 0.73999923
+      value: 0
+      inSlope: -0.7857611
+      outSlope: -0.7857611
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.043148573
+      outWeight: 1
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7291553138422685126
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +99,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7291553138422685126}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.8, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7848717, y: 0.7848717, z: 0.7848715}
   m_ConstrainProportionsScale: 0
   m_Children: []
