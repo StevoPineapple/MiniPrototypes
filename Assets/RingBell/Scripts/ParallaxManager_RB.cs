@@ -302,38 +302,6 @@ namespace RitualNight
                 }
             }//Debug mode
 #endif
-            private void Update()
-            {
-                return;
-                if (Input.GetKeyDown(KeyCode.R)&&DebugMode)
-                {
-                    ResetGame();
-                }
-
-                if (IsLaunched)
-                {
-                    if (okBellTrans.position.y < SlideyObject.transform.position.y)
-                    {
-                        IsOK = true;
-                    }
-
-                    float _fps = Application.targetFrameRate > -1 ? Application.targetFrameRate : 60; //Used to keep the current speed tune
-                    currSpeed -= gravityCurve.Evaluate(currSpeed)*Time.deltaTime*_fps;
-                    if (currSpeed <= heightDisplayMinSpd)
-                    {
-                        ShowHeight();   
-                    }
-                    if (!_isMoveSlidey)
-                    {
-                        transform.position += new Vector3(0, -Mathf.Clamp(currSpeed * Time.deltaTime * _fps, -999, maxUpSpeed), 0);
-                        SlideyObject.transform.position = new Vector3(0, Mathf.Pow(Mathf.Clamp(currSpeed-slideyDelayMinSpd,0,slideyDelayMax),2)*slideyDelayAdj,0);
-                    }
-                    else
-                    {
-                        SlideyObject.transform.position -= new Vector3(0, -Mathf.Clamp(currSpeed * Time.deltaTime * _fps, -999, maxUpSpeed), 0);
-                    }
-                }
-            }
             private void FixedUpdate()
             {
                 if (Input.GetKeyDown(KeyCode.R) && DebugMode)

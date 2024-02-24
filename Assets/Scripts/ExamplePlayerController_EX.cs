@@ -72,7 +72,6 @@ namespace RitualNight
                 {
                     return;
                 }
-                //Check Swipe
             }
             
             private void ResetGame()

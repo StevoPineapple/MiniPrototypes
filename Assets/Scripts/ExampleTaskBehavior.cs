@@ -28,12 +28,14 @@ namespace RitualNight
             {
                 //SetPartyGameResult(true);
                 yield return new WaitForSeconds(2);
+                EXMM.SetWin();
                 //SetStateClosing();
                 StartClose();
             }
                             
             public void StartClose() //override 
             {
+                StopAllCoroutines();
                 //PlayerController.CloseGame();
                 //PlayerController.gameObject.SetActive(false);
 
@@ -43,7 +45,7 @@ namespace RitualNight
             public void WinCheck()
             {
                 HasWon = true;
-                EXMM.SetWin();
+                StartCoroutine(DoFinishTask());
             }
         }
     }

@@ -9,16 +9,18 @@ otherwise the scene camera will move as usual :)
 David Darias. Lic: MIT. Dec 2017.
 */
 
+
+
 using System;
 using System.Collections;
 using UnityEngine;
 using UnityEditor;
 
-[InitializeOnLoad]
+//[InitializeOnLoad]
 public class DebugMoveInEditor
 {
 	private static float viewportPercentRotation = 0.1f;
-	private static float viewportPercentMovement = 1f;
+	//private static float viewportPercentMovement = 1f;
 	private static float viewportPercentScale = 0.001f;
 	private static int rotationSnapAngle = 15;
 
@@ -141,7 +143,6 @@ public class DebugMoveInEditor
 
 	private static void rotateObject(Transform t, Vector3 rotation)
 	{
-		return;
 		//allow undo of the rotation
 		Undo.RecordObject(t, "Rotation Step");
 		if (rotation.y != 0)
@@ -170,7 +171,6 @@ public class DebugMoveInEditor
 
 	private static void scaleObject(Transform t, Vector3 scale)
 	{
-		return;
 		//allow undo of the scale
 		Undo.RecordObject(t, "Scale Step");
 		t.localScale = t.localScale + scale * viewportPercentScale;
