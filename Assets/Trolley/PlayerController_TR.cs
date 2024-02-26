@@ -148,7 +148,7 @@ namespace RitualNight
                     }
                     else
                     {
-                        arrowArr[SelectedTrack].color = Color.white;
+                        arrowArr[SelectedTrack].color = Color.gray;
                     }
                     _isArrowBlack = !_isArrowBlack;
                     yield return new WaitForSeconds(arrowBlinkTime);

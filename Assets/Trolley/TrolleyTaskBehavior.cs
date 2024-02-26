@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.Playables;
+using TMPro;
 
 namespace RitualNight
 {
@@ -16,6 +17,11 @@ namespace RitualNight
             private Vector3 mainCamInitPos;
             private float mainCamInitSize;
 
+            [SerializeField] private float numberChance;
+
+            [SerializeField] private GameObject numberCanvasObj;
+            [SerializeField] private TextMeshProUGUI numberText;
+            [SerializeField] private bool isNumber;
 
             [SerializeField] private RuntimeAnimatorController animController;
             private Animator _camAnim;
@@ -30,14 +36,15 @@ namespace RitualNight
             [SerializeField] private Sprite carInitSpr;
 
             [Header("Win")]
-            [SerializeField] private TrackItems[] trackItemsArr;
-            private TrackItems _selectedTrackItems;
+            [SerializeField] private TrackItemSets[] trackItemsSetsArr;
+            private TrackItemSets _selectedSet;
             public int CorrectTrack;
             [System.Serializable]
-            public class TrackItems
+            public class TrackItemSets
             {
-                public Sprite[] ItemSprArr = new Sprite[3];
-                public bool HardPattern;
+                public string name;
+                public Sprite[] ItemSprArr; //init in inspector
+                public Sprite[] EvilItemSprArr; //init in inspector
             }
 
             public bool IsCamFollow;
@@ -53,6 +60,7 @@ namespace RitualNight
             public int[] ChangeTrackResultArr;
             [SerializeField] private float switchOneChance;
             [SerializeField] private float switchTwoChance;
+            private bool _isHardPattern;
 
             [Header ("MiniManager")]
             public TrolleyMiniManager TRMM;
@@ -72,7 +80,11 @@ namespace RitualNight
             }
             private void RestartGame()
             {
+                numberCanvasObj.SetActive(false);
+                isNumber = false;
+
                 bubbleObj.SetActive(true);
+                bubbleItemRend.enabled = true;
                 IsCamFollow = false;
                 IsCamReturn = false;
                 PlayerController.StartGame();
@@ -96,12 +108,15 @@ namespace RitualNight
                 }
                 _camAnim.runtimeAnimatorController = animController;
                 _camAnim.enabled = true;
+                _camAnim.SetTrigger("Restart");
                 ChangeTrackResultArr = new int[3];
                 ChooseItemPattern();
                 RandomizeSecondTracks();
             }
             private void RandomizeSecondTracks()
             {
+                _isHardPattern = false;
+
                 foreach (SpriteRenderer _sprRend in changeTrackRendArr)
                 {
                     _sprRend.sprite = changeTrackSprArr[2];
@@ -132,6 +147,7 @@ namespace RitualNight
 
                     if (_chance < switchTwoChance)
                     {
+                        _isHardPattern = true;
                         int _nextChangeTrack = (_firstChangeTrack + 1) % 3;
                         int _nextChangeTrackEnd = 0;
                         int _fail = 0;
@@ -183,14 +199,131 @@ namespace RitualNight
 
             private void ChooseItemPattern()
             {
-                _selectedTrackItems = trackItemsArr[Random.Range(0, trackItemsArr.Length)];
-                for (int i = 0; i < 3; i++)
+                //select a set
+                float _chance = Random.Range(0f, 1f);
+                if (_chance < numberChance)
                 {
-                    trackItemRendArr[i].sprite = _selectedTrackItems.ItemSprArr[i];
-                    trackItemRendArr[i].color = Color.white;
+                    _selectedSet = trackItemsSetsArr[0];
+                    ChooseNumberItemPattern();
+                    return;
                 }
+                else
+                {
+                    _selectedSet = trackItemsSetsArr[Random.Range(1, trackItemsSetsArr.Length)];
+                }
+
+
+                    int _evilLength = _selectedSet.EvilItemSprArr.Length;
+                int _itemLength = _selectedSet.ItemSprArr.Length;
+                int _totalLength = _evilLength + _itemLength;
+
+                //evil item is always in front: {evil, evil, evil, good, good}
+                int[] _itemIndexArr = new int[_totalLength]; 
+                for (int i = 0; i < _totalLength; i++)
+                {
+                    _itemIndexArr[i] = i;
+                }
+
+                bool _hasGoodItem=false;
+                List<int> _goodIndexList = new List<int>();
+                for (int i = 0; i < 3; i++)//for each track
+                {
+                    int _chosenIndex = _itemIndexArr[Random.Range(0, _totalLength)];
+                    int fail = 0;
+                    while (_chosenIndex == -1 )
+                    {
+                        fail++;
+                        if (fail > 100)
+                        {
+                            print("while loop");
+                            print("chInd:" + _chosenIndex);
+                            print("i:" + i);
+                            print("goodItem:" + _hasGoodItem);
+                            print(_itemIndexArr);
+                            break;
+                        }
+                        if (i == 2 && !_hasGoodItem)
+                        {
+                            _chosenIndex = _itemIndexArr[Random.Range(_evilLength, _totalLength)];
+                        }
+                        else
+                        {
+                            _chosenIndex = _itemIndexArr[Random.Range(0, _totalLength)];
+                        }
+                    } 
+
+                    if (_chosenIndex < _evilLength)
+                    {
+                        //spawn evil
+                        trackItemRendArr[i].sprite = _selectedSet.EvilItemSprArr[_chosenIndex];
+                        trackItemRendArr[i].color = Color.white;
+                        _itemIndexArr[_chosenIndex] = -1;
+                    }
+                    else
+                    {
+                        trackItemRendArr[i].sprite = _selectedSet.ItemSprArr[_chosenIndex-_evilLength];
+                        trackItemRendArr[i].color = Color.white;
+                        _itemIndexArr[_chosenIndex] = -1;
+                        _hasGoodItem = true;
+                        _goodIndexList.Add(i); //add track index that has good item
+                    }
+                }
+                if (_goodIndexList.Count == 0)
+                {
+                    print("no good Item");
+                }
+                CorrectTrack = _goodIndexList[Random.Range(0, _goodIndexList.Count)];
+                bubbleItemRend.sprite = trackItemRendArr[CorrectTrack].sprite;
+            }
+            private void ChooseNumberItemPattern()
+            {
+                //This is 
+                int _baseNumber = 9;
+                numberCanvasObj.SetActive(true);
+
+                isNumber = true;
+                bubbleItemRend.enabled = false;
+
+                int _itemLength = _selectedSet.ItemSprArr.Length;
+                int[] _itemIndexArr = new int[_itemLength]; //change to array?
+                for (int i = 0; i < _itemLength; i++)
+                {
+                    _itemIndexArr[i] = i;
+                }
+
+                int _chosenIndex = _itemIndexArr[Random.Range(0, _itemLength)];
                 CorrectTrack = Random.Range(0, 3);
-                bubbleItemRend.sprite = _selectedTrackItems.ItemSprArr[CorrectTrack];
+                int _correctNumber = 0;
+
+                for (int i = 0; i < 3; i++)//for each track
+                {
+                    _chosenIndex = _itemIndexArr[Random.Range(0,_itemLength)];
+                    int fail = 0;
+                    while (_chosenIndex == -1)
+                    {
+                        fail++;
+                        if (fail > 100)
+                        {
+                            print("while loop");
+                            break;
+                        }
+                        _chosenIndex = _itemIndexArr[Random.Range(0, _itemLength)];
+                    }
+                    trackItemRendArr[i].sprite = _selectedSet.ItemSprArr[_chosenIndex];
+                    trackItemRendArr[i].color = Color.white;
+                    _itemIndexArr[_chosenIndex] = -1;
+                    if (i == CorrectTrack)
+                    {
+                        _correctNumber = _chosenIndex + _baseNumber;
+                    }
+                }
+                int _offsetNumber = Random.Range(-2, 3);
+                int _firstNumber = _correctNumber / 2;
+                int _secondNumber = _correctNumber - _firstNumber;
+
+                _firstNumber += _offsetNumber;
+                _secondNumber -= _offsetNumber;
+                numberText.text = _firstNumber + "+" + _secondNumber;
             }
             private void Update()
             {
@@ -247,6 +380,7 @@ namespace RitualNight
             private IEnumerator DoFailedTask()
             {
                 yield return new WaitForSeconds(2.5f);
+                _camAnim.SetTrigger("Restart");
                 carAnim.SetTrigger("Restart");
                 RestartGame();
             }
@@ -265,6 +399,7 @@ namespace RitualNight
             public void MunchItem()
             {
                 trackItemRendArr[ChangeTrackResultArr[PlayerController.SelectedTrack] + PlayerController.SelectedTrack].color = new Color(1, 1, 1, 0);
+                numberCanvasObj.SetActive(false);
                 bubbleObj.SetActive(false);
             }
             public void WinCheck()
@@ -276,7 +411,7 @@ namespace RitualNight
                     HasWon = true;
                     carAnim.SetBool("isMunching", false);
                     carAnim.SetBool("isWin", true);
-                    if (_selectedTrackItems.HardPattern)
+                    if (_isHardPattern)
                     {
                         StartCoroutine(DoFastFinishTask());
                     }
@@ -288,6 +423,14 @@ namespace RitualNight
                 else
                 {
                     bubbleObj.SetActive(true);
+                    if (isNumber)
+                    {
+                        numberCanvasObj.SetActive(true);
+                    }
+                    else
+                    {
+                        bubbleItemRend.enabled = true;
+                    }
                     carAnim.SetBool("isMunching", false);
                     carAnim.SetBool("isWin", false);
                     StartCoroutine(DoFailedTask());
