@@ -15,8 +15,8 @@ namespace RitualNight
             */
             
             public ExampleTaskBehavior EXManager;
-
-            /*private void OnEnable()
+            /*
+            private void OnEnable()
             {
                 if (PartyGameController.IsUsingController)
                 {
@@ -25,14 +25,14 @@ namespace RitualNight
                 }
                 else
                 {
-                    PartyGameController.OnPartyGameActionPress += MousePress;
+                    PartyGameController.OnPartyGameActionPress += OnMousePress;
                     if (isMobile.Value)
                     {
-                        PartyGameController.OnPartyGameActionReleaseMobile += MouseRelease;
+                        PartyGameController.OnPartyGameActionReleaseMobile += OnMouseRelease;
                     }
                     else
                     {
-                        PartyGameController.OnPartyGameActionRelease += MouseRelease;
+                        PartyGameController.OnPartyGameActionRelease += OnMouseRelease;
                     }
                 }
             }
@@ -46,14 +46,14 @@ namespace RitualNight
                 }
                 else
                 {
-                    PartyGameController.OnPartyGameActionPress -= MousePress;
+                    PartyGameController.OnPartyGameActionPress -= OnMousePress;
                     if (isMobile.Value)
                     {
-                        PartyGameController.OnPartyGameActionReleaseMobile -= MouseRelease;
+                        PartyGameController.OnPartyGameActionReleaseMobile -= OnMouseRelease;
                     }
                     else
                     {
-                        PartyGameController.OnPartyGameActionRelease -= MouseRelease;
+                        PartyGameController.OnPartyGameActionRelease -= OnMouseRelease;
                     }
                 }
             }*/
@@ -64,10 +64,19 @@ namespace RitualNight
             private void Update()
             {
                 //PartyGameController.PartyGameFollow(transform, PartyGameController.IsUsingController ? 5 : 100);
+                transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    OnMousePress();
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    OnMouseRelease();
+                }
             }
             void FixedUpdate()
             {
-                //transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                
                 if (EXManager.HasWon)
                 {
                     return;
@@ -87,11 +96,11 @@ namespace RitualNight
             
             }*/
 
-            private void MousePress()
+            private void OnMousePress()
             {
             
             }
-            private void MouseRelease()
+            private void OnMouseRelease()
             {
             
             }

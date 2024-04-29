@@ -44,8 +44,8 @@ public class GameSelect : MonoBehaviour
     bool isLoading;
 
     //Start and Closing Game
-    public static float GameStartTime { get; private set; } = 1.1f;
-    public static float GameCloseTime { get; private set; } = 1.5f; //Time to close after winning a game
+    public static float GameStartTime { get; private set; } = 1f;
+    public static float GameCloseTime { get; private set; } = 1f; //Time to close after winning a game
     static bool isGaming;
 
     // Start is called before the first frame update

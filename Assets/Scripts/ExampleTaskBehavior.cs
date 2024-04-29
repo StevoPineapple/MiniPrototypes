@@ -30,7 +30,6 @@ namespace RitualNight
                 yield return new WaitForSeconds(2);
                 EXMM.SetWin();
                 //SetStateClosing();
-                StartClose();
             }
                             
             public void StartClose() //override 

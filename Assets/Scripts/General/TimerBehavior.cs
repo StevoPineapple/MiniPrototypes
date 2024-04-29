@@ -22,7 +22,7 @@ public class TimerBehavior : MonoBehaviour
     public static void EndTimer()
     {
         TimerText.gameObject.SetActive(true);
-        TimerText.text = (DateTime.Now - initTime).ToString();
+        TimerText.text = (DateTime.Now - initTime).ToString(@"ss\.ff");
     }
 
 }
