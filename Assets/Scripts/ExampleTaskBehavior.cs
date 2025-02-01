@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 namespace RitualNight
 {
@@ -20,8 +19,8 @@ namespace RitualNight
             }
             public void StartOpen() //override
             {
+                HasWon = false;
                 //PlayerController.StartSetUp();
-                //HasWon = false;
                 //base.StartOpen();
             }
             private IEnumerator DoFinishTask()
